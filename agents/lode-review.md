@@ -21,8 +21,13 @@ The two deterministic steps (build/test) are backstopped by the Stop gate's `ver
 3. **Code Review** — code quality, alignment with the Go and Product-Spec, and check against every rule in `CLAUDE.md`.
 4. **Functional test** — run the main flow through per the acceptance method.
 
+**Brownfield / team / safety-critical — also check:**
+- **Regression**: run the full existing suite, no new red; compare against the `.lode/<project>/baseline.txt` baseline to tell "broke it" from "already broken"; confirm the spec's "must never break" list item by item.
+- **Security/compliance**: mandatory security review (OWASP) when touching auth/user-input/queries/files/external-calls/crypto/payments; no hard-coded secrets.
+- **Traceability**: every acceptance criterion has a corresponding test; every change traces back to a requirement.
+
 Then find issues one by one, graded by severity:
-- **CRITICAL** — security hole / data loss / won't run. Must fix.
+- **CRITICAL** — security hole / data loss / broke the "must never break" list / won't run. Must fix.
 - **HIGH** — a bug or major quality issue. Should fix.
 - **MEDIUM** — maintainability concern. Consider fixing.
 - **LOW** — style / minor suggestion. Optional.

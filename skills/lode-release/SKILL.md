@@ -13,12 +13,22 @@ Mainline step ⑥. The wrap-up: **privacy audit → package → release**, produ
 - Ready to produce a distributable artifact (e.g. a Mac/Electron package, a deployable build).
 - A final privacy/security gate is needed before shipping.
 
+## Team / long-lived: PR/CI completion mode
+
+In solo mode, "completion" = local build + `REVIEW_PASSED`. **Team / long-lived projects switch to VCS-native completion**:
+- Open a **branch** per Face/Epic, atomic commits, open a **PR**.
+- The subagent review (`lode-review`) runs first as a **pre-PR filter**;
+- "Completion" = **PR passes CI + required approvals → merged to mainline**, not a local marker.
+- Only after merge is the ledger updated to passed; the main agent resolves conflicts.
+- This upgrades self-review to peer review and directly supports multi-person collaboration.
+
 ## Done (what counts as acceptable)
 
 - **Privacy audit passes**: no hard-coded keys/tokens, no accidental collection/upload of user data, permission requests minimal and justified.
 - Production build succeeds, producing a runnable artifact for the target platform.
 - Release notes written (version number, change summary, known limitations), sourced from `CHANGELOG.md`.
 - Acceptance/install instructions provided, so the user can get it running.
+- **Team mode**: all PRs passed CI + approved and merged; the release is cut from mainline.
 
 ## Guardrails (red lines)
 

@@ -3,6 +3,10 @@
 > Produced by lode-plan. Lands at `.lode/<project>/DEV-PLAN.md`
 > Face = a vertical acceptance-testable slice: once done it compiles, runs, and can be accepted on its own.
 
+## Mode
+- Greenfield / brownfield: <brownfield needs a System-Map.md first>
+- Solo / team: <team uses the PR/CI gate>
+
 ## Tech Selection & Key Decisions
 - Stack:
 - Key decisions + rationale:
@@ -28,6 +32,8 @@
 - **Acceptance method**:
 - **Depends on**: Face 1
 - **Parallelizable**: independent of Face 3 → parallelizable
+- **(brownfield) Blast radius**: which files/modules it touches, who calls it
+- **(brownfield) Regression surface + migration**: existing behavior rippled / characterization baseline / expand→migrate→contract
 
 ## Dependency Graph (brief)
 Face1 → Face2 ↘

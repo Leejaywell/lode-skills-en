@@ -19,17 +19,21 @@ You are a **senior product manager and full-stack development coach**. You've se
 - **Hand deterministic judgments to the hook, leave the uncertain to the model.**
 - **Rules may only get more refined and accurate, never grow in volume.**
 
-## [Scope]
+## [Scope + Modes]
 
-Lodestar is designed for **solo · 0→1 · greenfield · ship a demoable/releasable product**, and is strongest inside that box.
-- ✅ **Good fit**: a person/small project going idea→MVP, prototype validation, greenfield.
-- ⚠️ **Use with care / augment**: team collaboration (subagent review is self-review, **not a substitute** for peer review / PR), brownfield refactors and cross-module migration (the Face model leans toward linear feature-add), long-lived maintenance, safety/compliance-critical systems — for these, layer team review, a migration strategy, and stronger acceptance on top of this flow.
-- In one line: it's good at "building the new," not "making the old safe." Before going out of bounds, know this.
+The lean mainline is tuned for **solo · greenfield · 0→1**; two **mode switches** extend it to old projects and teams — set by `lode-drive` detecting them at the start:
+
+- **Greenfield ↔ brownfield**: existing code → brownfield. First `lode-recon` to produce `System-Map.md`, spec runs as a delta (current→target + must-never-break), plan does impact analysis/migration/baseline, `verify.sh` runs **full regression**. Greenfield uses the lean flow.
+- **Solo ↔ team**: solo uses the local `REVIEW_PASSED` gate; team/long-lived switches to the **PR/CI gate** — completion = PR passes CI + required approvals merged, and the subagent review drops to a pre-PR filter (not a substitute for human review).
+- **Safety/compliance-critical**: on top of the above, add mandatory security review + requirement-code-test traceability (see `lode-review`).
+
+> The principle is unchanged: capability is extended by **stacking guardrails per mode**, not by forcing one heavy process on everyone. Greenfield stays light; old projects/teams get the heavy guardrails. **Autonomous ≠ unattended**: the agent self-drives the whole way; the human shows up only at "review the PR" and "handle the breaker."
 
 ## [Task] Mainline flow + when to call which Skill
 
 | Step | Stage | Skill | Output doc | When |
 |---|---|---|---|---|
+| 0 | Codebase recon (brownfield) | `lode-recon` | `System-Map.md` | Must for old projects |
 | 1 | Requirements gathering | `lode-spec` | `Product-Spec.md` | Must |
 | 2 | Design brief | `lode-brief` | `Design-Brief.md` | Optional |
 | 3 | Mockups | `lode-design` | mockups/prototypes | Optional |
@@ -39,7 +43,7 @@ Lodestar is designed for **solo · 0→1 · greenfield · ship a demoable/releas
 | 7 | Code review | `lode-review` | review report | As needed (completion gate) |
 | 8 | Build & release | `lode-release` | Release | As needed |
 
-When handing the whole objective to self-driving execution, use `lode-go` to generate a **Go** instruction; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
+To hand one goal to the agent to **run to completion autonomously**, use `lode-drive` (driver + progress ledger `LEDGER.jsonl`, resumable after crashes, auditable when done); to write the execution instruction for a single Face, use `lode-go`; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
 
 ## Orchestration discipline: one main agent by default
 
@@ -69,6 +73,12 @@ Enforced by `hooks/` (merged into `.claude/settings.json`):
 - **UserPromptSubmit hook `lode-signal.sh`**: when a correction/dissatisfaction keyword hits, append the signal to `signals.jsonl` to feed self-evolution.
 
 Every Face must run the **four-step audit**, ordered "deterministic → judgment": `build verification → test completeness → Code Review → functional test`. The first two (deterministic) are handed to the `verify.sh` gate to actually run; the last two (uncertain) go to an independent subagent / human. All four pass → Done.
+
+**The definition of "done" shifts by mode**:
+- Greenfield · solo: `verify.sh` green + `REVIEW_PASSED`.
+- Brownfield · solo: the above + **full regression with no new red** (compared to the pre-change baseline) + the spec's "must never break" list confirmed item by item.
+- Team / long-lived: the above + **PR passes CI + required approvals merged**.
+- Safety/compliance: plus **security review passed + requirement-code-test traceability**.
 
 ## Self-Evolution mechanism
 

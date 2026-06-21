@@ -22,6 +22,12 @@ One line: for whom, solving what, by what edge.
 ## What It Won't Do (scope boundary)
 - Explicitly excluded:
 
+## (brownfield) Delta: current → target
+- Current (the behavior of the part you're changing, today):
+- Target (what it should be after the change):
+- **Must never break (invariants / regression surface)**:
+- Affected modules (from System-Map):
+
 ## Non-Functional Constraints
 - Platform / performance / privacy / offline-online:
 

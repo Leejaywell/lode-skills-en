@@ -26,6 +26,12 @@ Return a structured review report covering the **four-step audit**: build verifi
 - On pass, the **main agent** writes the conclusion into `.lode/<project>/REVIEW_PASSED` (note the reviewed Face/commit); the gate lets it through on that basis.
 - On fail, each blocking item states "why + how to fix"; the main agent fixes and runs another round until Pass.
 
+**Brownfield / team / safety-critical extra review:**
+- **Regression**: the full existing suite has no new red; compared against the pre-change baseline to tell "broke it" from "already broken"; the spec's "must never break" list confirmed item by item.
+- **Security/compliance**: when touching auth, user input, queries, files, external calls, crypto, or payments, run a mandatory security review (per OWASP); no hard-coded secrets.
+- **Traceability**: requirement → code → test line up — every acceptance criterion has a corresponding test, every change traces back to a requirement (required for regulated systems).
+- **Team mode**: this review is a **pre-PR filter**, not a substitute for human review; completion = PR passes CI + required approvals merged, and `REVIEW_PASSED` is only for local/solo mode.
+
 ## Guardrails (red lines)
 
 - The review subagent **reviews only, doesn't change code**; fixes go back to `lode-build` / `lode-fix`.

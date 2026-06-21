@@ -25,6 +25,15 @@ Produce `.lode/<project>/DEV-PLAN.md` (covering current-doc-status notes, tech-s
 - The first Face is the "thinnest runnable" skeleton, validating the loop works as early as possible.
 - Define this project's **deterministic verification command** (build + test), for lode-build to land as `.lode/<project>/verify.sh` and the Stop gate to actually run — moving "did build/test pass" out of model self-assessment and into a program.
 
+## Brownfield extra (when changing an old project, mandatory per change-Face)
+
+Reading `System-Map.md` + the spec's delta, add to each change-Face:
+- **Blast radius**: which files/modules this Face touches and who calls it (determined via codegraph/call relations, not guesswork).
+- **Regression surface**: which existing behaviors it ripples into; the corresponding existing-test scope to run (feeds the full-regression gate).
+- **Baseline / pin behavior**: before touching anything, **actually run the existing tests and save a baseline**; for the area you're changing that has no tests, first add **characterization tests** to pin current behavior, then change.
+- **Migration strategy**: for schema/interface/data-format changes, use **expand → migrate → contract** (coexist compatibly first, migrate, then seal up) — don't cut over in one shot.
+- **Allow cross-Face refactor**: if an earlier Face's design turns out wrong, open a dedicated "refactor Face" to fix it — provided the regression net backstops it — rather than piling on top of a wrong design.
+
 ## Guardrails (red lines)
 
 - Don't shred into a pile of fragmented tool/function tasks — grant capability, give acceptance-testable slices, let the Builder organize the implementation itself.

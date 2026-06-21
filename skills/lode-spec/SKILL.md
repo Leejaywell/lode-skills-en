@@ -36,6 +36,14 @@ I'm reading it with these assumptions; interrupt me now if any are wrong:
 → If you don't correct me, I'll keep interrogating on this basis.
 ```
 
+## Brownfield: use delta mode (when changing an old project)
+
+When the goal lands in an existing project, the spec isn't "what to build" but **what to change**. First read `lode-recon`'s `System-Map.md`, then write as a delta:
+- **Current**: what the behavior is now (for the part you're changing).
+- **Target**: what it should be after the change.
+- **Must never break (invariants / regression surface)**: which existing behaviors, data, and interfaces must stay unchanged — this column directly decides the characterization tests build must pin and the regression scope the gate must run.
+- **Affected modules**: mark from the System-Map what will be rippled (for plan's impact analysis).
+
 ## Done (what counts as acceptable)
 
 Produce `.lode/<project>/Product-Spec.md` that satisfies:
@@ -44,6 +52,7 @@ Produce `.lode/<project>/Product-Spec.md` that satisfies:
 - Explicit **scope boundary** (what it won't do) to prevent unbounded growth.
 - Key constraints (platform, performance, privacy, offline/online, product form) decided.
 - Includes user stories, the main flow, the tools/capabilities the agent will use, layout intent, external dependencies.
+- **Brownfield extra**: the current→target delta + the **must-never-break list** (invariants/regression surface) + affected modules.
 
 ## Guardrails (red lines)
 

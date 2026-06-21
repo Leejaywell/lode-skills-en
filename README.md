@@ -29,39 +29,42 @@
 
 ---
 
-## The 11 skills (six mainline + five extensions)
+## The 13 skills (seven mainline + six extensions)
 
 > Command = skill name (in Claude Code the slash command is the skill name; the model also auto-triggers by description).
 
-Mainline (`①→⑥`):
+Mainline (`⓪→⑥`):
 
 | # | Command (= skill name) | What it does | Output |
 |---|---|---|---|
-| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (blunt, no flattery) | `Product-Spec.md` |
+| 0 | `/lode-recon` | **(brownfield)** Map existing architecture/conventions/commands/baseline | `System-Map.md` |
+| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (brownfield → delta) | `Product-Spec.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `Design-Brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | mockups/prototype |
-| 4 | `/lode-plan` | Split into Faces, each independently acceptance-testable and runnable | `DEV-PLAN.md` |
+| 4 | `/lode-plan` | Split into Faces (brownfield: impact analysis/migration/baseline) | `DEV-PLAN.md` |
 | 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `CHANGELOG.md` |
-| 6 | `/lode-release` | Privacy audit + package & release | Release |
+| 6 | `/lode-release` | Privacy audit + package & release (team: PR/CI) | Release |
 
 Extensions (as needed):
 
 | Command (= skill name) | Use |
 |---|---|
-| `/lode-go` | Write a good **Go** (goal/standards/acceptance/constraints/execution strategy); the AI writes it most accurately |
-| `/lode-review` | Fan out a **clean-brain** subagent for independent review (completion gate) |
+| `/lode-drive` | **Autonomous driver**: run one goal to completion; resumable, auditable progress ledger |
+| `/lode-go` | Write a good **Go** (goal/standards/acceptance/constraints/execution strategy) |
+| `/lode-review` | Fan out a **clean-brain** subagent for independent review (incl. regression/security/traceability) |
 | `/lode-fix` | Reproduce → locate → minimal fix → regression |
 | `/lode-skill` | Build a new skill: grant full capability, don't shred into tools |
 | `/lode-evolve` | Distill real failures into rules (self-evolution engine) |
 
 ---
 
-## Scope
+## Scope + modes
 
-Lodestar is built for **solo · 0→1 · greenfield · ship a demoable/releasable product** — strongest inside that box.
-- ✅ **Good fit**: a person/small project going idea→MVP, prototype validation, greenfield.
-- ⚠️ **Use with care / augment**: team collaboration (subagent review is self-review, not a substitute for peer review / PR), brownfield refactors and cross-module migration, long-lived maintenance, safety/compliance-critical systems — layer team review and stronger acceptance on top.
-- In one line: it's good at "building the new," not "making the old safe."
+The lean mainline is tuned for **solo · greenfield · 0→1**; two **mode switches** extend it to old projects and teams (`lode-drive` sets them at the start):
+- **Greenfield ↔ brownfield**: old projects first `/lode-recon` for a system map, spec runs as a delta, plan does impact analysis/migration/baseline, verify runs **full regression**.
+- **Solo ↔ team**: solo uses the local `REVIEW_PASSED` gate; team/long-lived switches to the **PR/CI gate**, with the subagent review dropping to a pre-PR filter (not a substitute for human review).
+- **Safety/compliance**: plus mandatory security review + requirement-code-test traceability.
+- Vision: **set one goal → the agent runs it to completion → greenfield or brownfield**. Autonomous ≠ unattended — the human shows up only at "review the PR" and "handle the breaker." Greenfield stays light; old projects/teams get the heavy guardrails.
 
 ## Install & use
 
