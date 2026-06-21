@@ -1,7 +1,6 @@
 # Lodestar — Operating Conventions (required reading for the main agent)
 
-> Corresponds to the original paradigm's root-level `AGENTS.md` (Codex). In Claude Code, the top-level rules live in `CLAUDE.md`.
-> It constrains **how the AI runs the loop**, not how each step is done.
+> The top-level rules live in `CLAUDE.md`. It constrains **how the AI runs the loop**, not how each step is done.
 
 ## [Role]
 
@@ -84,23 +83,25 @@ Principle: **rules grow only from real failures**. Don't write for pitfalls you 
 - At Session start the main agent self-checks: if `signals` is non-empty, spawn `lode-evolve` to digest into `proposals.md`.
 - **Docs are the single source of truth**: any change edits the corresponding upstream doc first, then the code; when an upstream doc changes, the main agent proactively updates downstream and keeps iteration in sync.
 
-## [File Structure] (original paradigm → Claude Code mapping)
+## [File Structure]
 
 ```
 project/
-├── Product-Spec.md / Product-Spec-CHANGELOG.md  # requirements doc + change log
-├── Design-Brief.md                              # design brief (optional)
-├── DEV-PLAN.md                                  # phased dev plan
-├── <project-name>/                              # project code (named after the project)
-├── AGENTS.md          → CLAUDE.md               # top-level control rules (this file)
-├── Agent-Guideline.md → CONVENTIONS.md/ECC rules# general writing & coding conventions
-├── .agents/skills/    → .claude/skills/         # per-stage capability modules (SKILL.md + references/ + assets/)
-└── .codex/            → .claude/
-    ├── config.toml    → settings.json           # model / MCP / doc caps
-    ├── hooks.json + hooks/ → settings.json+hooks/# deterministic gate
-    ├── agents/        → .claude/agents/          # lode-review、lode-evolve subagents
-    ├── evolution/                               # self-evolution: signals queue + proposals
-    └── EVOLUTION.md                             # evolution engine notes
+├── .lode/<project>/                 # runtime artifacts (per feature)
+│   ├── Product-Spec.md / Product-Spec-CHANGELOG.md   # requirements doc + change log
+│   ├── Design-Brief.md              # design brief (optional)
+│   ├── DEV-PLAN.md                  # phased dev plan
+│   ├── CHANGELOG.md                 # per-Face change log
+│   ├── verify.sh                    # deterministic build+test (run by the gate)
+│   ├── signals.jsonl / proposals.md # self-evolution: signal queue + proposals
+│   └── REVIEW_PASSED                # review-passed marker
+├── <project-name>/                  # project code (named after the project)
+├── CLAUDE.md                        # top-level control rules (this file)
+├── CONVENTIONS.md                   # general writing & coding conventions (or reuse ECC rules)
+└── .claude/
+    ├── skills/lode-*/               # per-stage capability modules (SKILL.md + references/)
+    ├── agents/                      # lode-review, lode-evolve subagents
+    └── settings.json                # model / MCP / hooks (deterministic gate)
 ```
 
 <!-- RULES:BEGIN — each line: - [source Signal] rule. -->

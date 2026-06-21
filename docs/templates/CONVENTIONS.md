@@ -1,6 +1,6 @@
 # CONVENTIONS — general writing & coding conventions
 
-> Corresponds to the original paradigm's `Agent-Guideline.md`. Lands at the project root `CONVENTIONS.md`.
+> Lands at the project root `CONVENTIONS.md`.
 > Difference from `CLAUDE.md`: `CLAUDE.md` governs **how the loop runs**; this governs **what the code/copy looks like** — project-level conventions reused across all Faces.
 > In Claude Code you can also reuse installed ECC rules (`~/.claude/rules/...`); this file only adds project-specific items.
 

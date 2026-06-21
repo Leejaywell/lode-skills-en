@@ -1,8 +1,8 @@
 # Lodestar — Claude Code Edition
 
-> **Lodestar** — a 1:1 port of CodeX's "Product Manager 5.0" development paradigm onto Claude Code's native capabilities, as a standalone development flow.
+> **Lodestar** — a "Product Manager 5.0" development paradigm built on Claude Code's native capabilities, as a standalone development flow.
 > In one line: **you set the star, the AI navigates.**
-> (English edition. Translated from the Chinese original, which was verified line-by-line against the source video transcript + keyframes.)
+> (English edition, translated from the Chinese original.)
 >
 > **Core belief**: Prompts are depreciating; process design is appreciating. AI is no longer a tool but the executor of the entire development process.
 > **Humans set the goal, the AI runs the loop**: the human does only two things — **make decisions** and **accept results** — and even "setting the goal" can be ghost-written by the AI.
@@ -11,21 +11,20 @@
 
 ---
 
-## Paradigm mapping: CodeX → Claude Code
+## How Lodestar is built on Claude Code
 
-| Paradigm concept | Claude Code native equivalent | Location in this repo |
+| Concept | Claude Code mechanism | Location in this repo |
 |---|---|---|
-| 11 Skills (`.agents/skills/`) | `SKILL.md` skills | `skills/lode-*` |
-| Top-level rules `AGENTS.md` (root) | Top-level rules `CLAUDE.md` | `CLAUDE.md` |
-| Subagents (`.codex/agents/`) | `Agent` tool + subagents | `agents/lode-review.md` |
-| `hooks.json` (deterministic rules → gate) | **Hooks** (`.claude/settings.json`) | `hooks/` |
+| 11 Skills | `SKILL.md` skills | `skills/lode-*` |
+| Top-level rules | `CLAUDE.md` | `CLAUDE.md` |
+| Subagents | `Agent` tool + subagents | `agents/lode-review.md` |
+| Deterministic rules → gate | **Hooks** (`.claude/settings.json`) | `hooks/` |
 | Self-evolution (signals→proposals→rule base) | `CLAUDE.md` rule base + Evolution Runner | `CLAUDE.md` + `skills/lode-evolve` |
 | Skill writes only Usage/Done/Guardrails | Skill frontmatter + minimal body | each `SKILL.md` |
 | Doc-driven (Product-Spec→Brief→Plan→Code→Changelog) | in-repo artifacts | `.lode/` runtime artifacts |
 | Go = goal+standards+acceptance+constraints+execution strategy | structured Go instruction | `skills/lode-go` |
 
-> Install layout: the original paradigm puts the 11 skills under `.agents/skills/`, subagents/hooks/evolution rules under `.codex/`, and the top-level `AGENTS.md` at the root.
-> Claude Code equivalent: skills go in `~/.claude/skills/` (or project `.claude/skills/`), subagents in `.claude/agents/`, hooks in `.claude/settings.json`, top-level rules in `CLAUDE.md`.
+> Install layout: skills go in `~/.claude/skills/` (or project `.claude/skills/`), subagents in `.claude/agents/`, hooks in `.claude/settings.json`, top-level rules in `CLAUDE.md`.
 
 ---
 
