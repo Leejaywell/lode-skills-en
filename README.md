@@ -83,10 +83,8 @@ Merge `hooks/` (`lode-gate.sh` + `lode-signal.sh` + the hooks block in `settings
 
 ---
 
-## Three iron rules (the author's battle lessons)
+## Three iron rules
 
-1. **Build fewer tools, grant more capability** — defining a dozen little editing tools for VibCut made it hopelessly dumb; tearing it down and granting the full general capability so it figured things out itself brought it to life. The model's smartness is **released, not designed**.
+1. **Build fewer tools, grant more capability** — don't shred a capability into a pile of special-purpose tools, that's actually dumber; grant the full general capability and let the model compose it. The model's smartness is **released, not designed**.
 2. **Don't pre-write rules; set them after hitting the pitfall** — a rule must correspond to one real failure; if deleting it makes the problem recur, it earns its place. Don't set rules for pitfalls you haven't hit; proactively delete the useless ones.
 3. **Spend your effort on design, not on whistle-blowing** — stop fiddling with prompts; what's truly valuable is designing the flow and the loop well (what each step produces, what counts as passing, what to do on a pitfall, how to evolve), and leave the rest for the AI to decide.
-
-> Real-world reference **VibCut** (a video-editing agent, Mac/Electron): 0 lines of hand-written code, fully AI-autonomous throughout, ~2h45m, ~2.85M tokens, split into 13 Faces; the author iterated on and off over three or four days, with hands-on time of just a dozen minutes per round.

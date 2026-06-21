@@ -15,7 +15,7 @@ Mainline step ③ (optional). Turn `Design-Brief.md` into **high-fidelity mockup
 
 ## How to make it (skeleton first)
 
-- **Skeleton first, then increments**: ship the thinnest runnable skeleton, confirm it, then layer on one piece at a time. **Don't let it produce something too complex in one shot** — it tends to break, and it hides a pile of features you never asked for across the pages, which are a pain to delete later (a pitfall the author called out explicitly).
+- **Skeleton first, then increments**: ship the thinnest runnable skeleton, confirm it, then layer on one piece at a time. **Don't let it produce something too complex in one shot** — it tends to break, and it hides a pile of features you never asked for across the pages, which are a pain to delete later.
 - You can leverage the installed `open-design` MCP or `frontend-design` / `imagegen-frontend-web` skills to carry the generation.
 
 ## Done (what counts as acceptable)

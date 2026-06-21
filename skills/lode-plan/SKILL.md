@@ -5,7 +5,7 @@ description: "Lodestar mainline ④ — development plan. Break the Product-Spec
 
 # Dev Planner (Development Plan)
 
-Mainline step ④. Break `Product-Spec.md` (and design artifacts) into a set of **Faces** (the real-world VibCut project split into 13).
+Mainline step ④. Break `Product-Spec.md` (and design artifacts) into a set of **Faces**.
 
 > **Face** = a **vertical, acceptance-testable slice**: once done it compiles, runs, and can be accepted on its own — not a horizontal "write all the models first, then all the UI."
 
