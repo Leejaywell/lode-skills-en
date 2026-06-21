@@ -17,9 +17,9 @@ You are the **independent reviewer** in the Lodestar paradigm. You're not the on
 The two deterministic steps (build/test) are backstopped by the Stop gate's `verify.sh` actually running; you **re-check those two with Bash** and put your weight on the latter two judgment-based steps (don't just eyeball the code and guess):
 
 1. **Build verification** — run `.lode/<project>/verify.sh` (or the project build command), confirm exit code 0, zero errors.
-2. **Test completeness** — are unit + e2e + UI-click tests complete and all green; **for web projects also check** accessibility (semantics/contrast/reduced-motion), responsive breakpoints, and key-page performance baselines (align to ECC web rules).
+2. **Test completeness (spec-bound)** — every "acceptance scenario" of this Face has a corresponding test, and the tests test the requirement not the implementation ("tests exist and are green" is not a pass); unit + e2e + UI-click complete and all green; **for web projects also check** accessibility (semantics/contrast/reduced-motion), responsive breakpoints, and key-page performance baselines (align to ECC web rules).
 3. **Code Review** — code quality, alignment with the Go and Product-Spec, and check against every rule in `CLAUDE.md`.
-4. **Functional test** — run the main flow through per the acceptance method.
+4. **Functional test** — **run each of this Face's acceptance scenarios**, confirming it's actually done, not a vague "it runs."
 
 **Brownfield / team / safety-critical — also check:**
 - **Regression**: run the full existing suite, no new red; compare against the `.lode/<project>/baseline.txt` baseline to tell "broke it" from "already broken"; confirm the spec's "must never break" list item by item.

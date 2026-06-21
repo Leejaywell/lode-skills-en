@@ -21,6 +21,7 @@ The main agent **fans out a clean-head subagent**: use the `Agent` tool to invok
 
 Return a structured review report covering the **four-step audit**: build verification, test completeness (unit + e2e + UI-click; for web projects incl. a11y/responsive/key-page performance), Code Review, functional test.
 - The first two are deterministic, backstopped by the Stop gate's `verify.sh` actually running; the subagent just re-checks the exit code, and focuses its weight on the latter two judgment steps.
+- **Test completeness is checked spec-bound**: every "acceptance scenario" of this Face has a corresponding test, and the tests test the requirement, not the implementation; the functional test **runs each acceptance scenario** — "tests exist and are green" is not a pass.
 - Each issue graded by severity: CRITICAL / HIGH / MEDIUM / LOW.
 - A clear verdict: **pass / fail** (any CRITICAL = fail).
 - On pass, the **main agent** writes the conclusion into `.lode/<project>/REVIEW_PASSED` (note the reviewed Face/commit); the gate lets it through on that basis.

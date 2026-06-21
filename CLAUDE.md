@@ -72,7 +72,7 @@ Enforced by `hooks/` (merged into `.claude/settings.json`):
 - **Stop hook `lode-gate.sh`**: before wrapping up a workspace where dev has started (CHANGELOG exists), ① actually run `.lode/<project>/verify.sh` (build+test, verdict by exit code) ② check the non-empty `REVIEW_PASSED` marker that's no older than CHANGELOG; either layer failing hard-blocks. The gate **doesn't trust only the model-written flag** — build/test are actually run by a program.
 - **UserPromptSubmit hook `lode-signal.sh`**: when a correction/dissatisfaction keyword hits, append the signal to `signals.jsonl` to feed self-evolution.
 
-Every Face must run the **four-step audit**, ordered "deterministic → judgment": `build verification → test completeness → Code Review → functional test`. The first two (deterministic) are handed to the `verify.sh` gate to actually run; the last two (uncertain) go to an independent subagent / human. All four pass → Done.
+Every Face must run the **four-step audit**, ordered "deterministic → judgment": `build verification → test completeness → Code Review → functional test`. The first two (deterministic) are handed to the `verify.sh` gate to actually run; the last two (uncertain) go to an independent subagent / human. All four pass → Done. **Test completeness is spec-bound**: it tests this Face's "acceptance scenarios" — **defined in plan before building** (derived from the acceptance criteria) — not weak tests the builder patches in after writing the code; this binds tests to the requirement, not the implementation, closing the "green tests but wrong feature" gap.
 
 **The definition of "done" shifts by mode**:
 - Greenfield · solo: `verify.sh` green + `REVIEW_PASSED`.

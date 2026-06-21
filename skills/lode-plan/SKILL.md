@@ -19,7 +19,8 @@ Mainline step ④. Break `Product-Spec.md` (and design artifacts) into a set of 
 
 Produce `.lode/<project>/DEV-PLAN.md` (covering current-doc-status notes, tech-selection conclusions, Face planning with order/parallelizability tags, and any necessary database design and dev rules), satisfying:
 - Broken into an ordered Face list, each Face a runnable vertical slice.
-- **Each Face carries its own Goal**: objective / done criteria (program-judgeable) / acceptance method.
+- **Each Face carries its own Goal**: objective / done criteria (program-judgeable) / acceptance method / **acceptance scenarios**.
+- **Acceptance scenarios must be defined before building** (spec-bound): derive a few concrete, executable scenarios ("given X, do Y, get Z") from the Product-Spec's acceptance criteria — they dictate **what the tests must test**. This binds tests to the **requirement**, not to weak tests the builder reverse-engineers after writing the code — closing the "green tests but wrong feature" gap.
 - Inter-Face dependencies marked; independent ones tagged **parallelizable** (for the main agent to decide whether to fan out subagents).
 - Tech selection and key architecture decisions have brief notes and rationale.
 - The first Face is the "thinnest runnable" skeleton, validating the loop works as early as possible.

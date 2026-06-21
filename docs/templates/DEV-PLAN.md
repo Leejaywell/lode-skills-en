@@ -22,6 +22,7 @@
 ### Face 1 — <thinnest runnable skeleton>
 - **Objective**:
 - **Done criteria** (program-judgeable): build passes / zero errors / tests pass
+- **Acceptance scenarios** (defined before building, derived from the spec's acceptance criteria): given <…> do <…> get <…>
 - **Acceptance method**: commit log + test results + review report
 - **Depends on**: none
 - **Parallelizable**: no

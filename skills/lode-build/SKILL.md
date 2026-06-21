@@ -23,9 +23,9 @@ This hands "build with zero errors / all tests pass" — a **deterministic judgm
 The first two steps are **deterministic** — handed to the hook to actually run; the last two are **uncertain** — judged by a human/subagent:
 
 1. **Build verification (deterministic · hook)** — `verify.sh` build exit code is 0.
-2. **Test completeness (deterministic · hook)** — unit + end-to-end + UI-click tests are complete and `verify.sh` is all green.
+2. **Test completeness (deterministic · hook)** — unit + end-to-end + UI-click tests are complete and `verify.sh` is all green; **tests must cover this Face's "acceptance scenarios"** (the ones defined in plan before building), not weak tests you patch in after writing the code. Write the tests covering the acceptance scenarios first, then make them green.
 3. **Code Review (judgment · subagent)** — fan out a clean-head subagent to review (see `lode-review`), covering code quality, alignment with the Spec, and for web projects a11y/responsive/key-page performance.
-4. **Functional test (judgment)** — the actual feature runs through per the acceptance method.
+4. **Functional test (judgment)** — run through each of the Face's **acceptance scenarios** for real (not a vague "it runs").
 
 All four pass → local commit as a rollback point (**no push**) → write the review conclusion into `.lode/<project>/REVIEW_PASSED` (note the reviewed Face/commit) → write the audit report → only then is this Face Done.
 

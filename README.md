@@ -88,20 +88,24 @@ With that: before wrapping up a workspace where dev has started, the gate auto-r
 
 ## How to use
 
-**Go is the entry point of the loop.** All the standards and rules set earlier are ultimately handed to the AI via one `Go`. There are three ways to execute the dev plan:
+### A. Autonomous (recommended) — one goal, the agent runs it to the end
+```
+/lode-drive Finish <goal>
+```
+`lode-drive` detects **greenfield/brownfield** and **solo/team** itself, decomposes into milestones → Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after crashes, auditable when done), replans on divergence, and trips the breaker when stuck. You show up only to **review PRs** and **handle the breaker**.
 
-1. **DevBuilder**: the main agent uses `lode-build` directly to write code and run the whole plan.
-2. **One Go at a time (most common)**: `lode-go` writes the first Face as a Go; copy and send it to execute, looping to completion.
-3. **One Go for everything (most efficient, once practiced)**: have `lode-go` plan all Faces holistically into one Go and develop it all in one pass.
-
-Minimal loop:
+### B. Manual, step by step — when you want to drive each stage
+Greenfield minimal loop:
 ```
 /lode-spec    # interrogate requirements → Product-Spec.md
-/lode-plan    # split into Faces → DEV-PLAN.md
-/lode-go      # generate the Go
-# copy the Go, send to the AI to execute → auto-development + four-step audit loop
+/lode-plan    # split into Faces (each Face's acceptance scenarios defined first) → DEV-PLAN.md
+/lode-go      # generate the Go for a single Face, send it to execute → four-step audit loop
 ```
-Full chain: before spec you can run `/lode-go` to turn a one-line idea into a Go; before plan insert `/lode-brief` (+ optional `/lode-design`); wrap up with `/lode-release`.
+- **Old project**: first `/lode-recon` for a `System-Map.md`; spec then runs as a delta (current→target + must-never-break).
+- Full chain: before plan you can insert `/lode-brief` (+ optional `/lode-design`); wrap up with `/lode-release` (team: PR/CI).
+- Three granularities for executing Faces: main agent runs the whole plan with `lode-build` / one Go per Face (most common) / one Go for all Faces (most efficient once practiced).
+
+> **Tests bind to the requirement**: each Face's "acceptance scenarios" are defined **before building** in plan; tests are written to the scenarios and review verifies against them — closing the "green tests but wrong feature" gap.
 
 ### Gate & hooks (deterministic judgments → a program)
 
