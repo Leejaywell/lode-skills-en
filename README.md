@@ -56,6 +56,26 @@ Extensions (as needed):
 
 ---
 
+## Install & use
+
+> Prereq: [Claude Code](https://claude.com/claude-code). Skills and subagents install **user-wide** (`~/.claude/`, available in every project); the gate and `CLAUDE.md` install **per project**.
+
+**1. Install skills + subagents (one line)**
+```bash
+git clone https://github.com/Leejaywell/lode-skills-en.git
+cd lode-skills-en && bash install.sh
+```
+Copies `skills/lode-*` into `~/.claude/skills/` and `agents/lode-*` into `~/.claude/agents/`. After that, type `/lode-spec`, `/lode-plan`, `/lode-go`… in any project.
+(Project-only install: just copy `skills/` and `agents/` into the project's `.claude/`.)
+
+**2. Add the deterministic gate to a project (optional, recommended)** — in your project root:
+1. `cp -R <this-repo>/hooks ./hooks && chmod +x ./hooks/*.sh` (the gate scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`).
+2. `cp <this-repo>/CLAUDE.md ./CLAUDE.md` (or merge into your existing one).
+3. Merge the `hooks` block from `hooks/settings.json` into the project's `.claude/settings.json`.
+4. At dev start, lay down `.lode/<project>/verify.sh` from `docs/templates/verify.sh` (wrapping build+test).
+
+With that: before wrapping up a workspace where dev has started, the gate auto-runs `verify.sh` + checks the review marker, and blocks wrap-up if either fails; corrections/dissatisfaction get captured as signals for self-evolution.
+
 ## How to use
 
 **Go is the entry point of the loop.** All the standards and rules set earlier are ultimately handed to the AI via one `Go`. There are three ways to execute the dev plan:
