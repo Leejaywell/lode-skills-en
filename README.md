@@ -56,6 +56,13 @@ Extensions (as needed):
 
 ---
 
+## Scope
+
+Lodestar is built for **solo · 0→1 · greenfield · ship a demoable/releasable product** — strongest inside that box.
+- ✅ **Good fit**: a person/small project going idea→MVP, prototype validation, greenfield.
+- ⚠️ **Use with care / augment**: team collaboration (subagent review is self-review, not a substitute for peer review / PR), brownfield refactors and cross-module migration, long-lived maintenance, safety/compliance-critical systems — layer team review and stronger acceptance on top.
+- In one line: it's good at "building the new," not "making the old safe."
+
 ## Install & use
 
 > Prereq: [Claude Code](https://claude.com/claude-code). Skills and subagents install **user-wide** (`~/.claude/`, available in every project); the gate and `CLAUDE.md` install **per project**.

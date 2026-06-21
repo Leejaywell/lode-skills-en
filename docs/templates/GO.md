@@ -24,5 +24,5 @@ Constraints:
 - Don't touch business features outside this phase
 - A local commit after each Face passes review is allowed as a rollback point; but **no push, don't delete prototype files**, unless the user confirms
 
-Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the Go is achieved.
+Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the Go is achieved. Circuit breaker: stop and ask the human after ≥3 consecutive failures on the same Face or a token-budget overrun; don't retry forever.
 ```

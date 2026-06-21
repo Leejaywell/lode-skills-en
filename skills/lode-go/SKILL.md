@@ -20,7 +20,7 @@ Extension skill. **Go is the entry point of the whole loop**: all the standards 
 2. **Done criteria**: what counts as done — program-judgeable (build with zero errors / all tests pass / review passes), listed item by item.
 3. **Acceptance method**: how to verify — checkable evidence (key command output / test results / list of created-modified files / review report).
 4. **Constraints**: what not to touch (e.g. don't change Product-Spec/Design-Brief, don't move the settled UI, **no push, don't delete prototype files**, unless the user confirms). Note: a **local commit** after each Face passes review **is allowed** (as a rollback point); the constraint is on irreversible outward-facing actions (push/store submission).
-5. **Execution strategy**: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks.
+5. **Execution strategy + circuit breaker**: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks — **but set a breaker: stop and ask the human after ≥3 consecutive failures on the same Face or a token-budget overrun; don't retry forever**.
 
 ## Surface assumptions (mandatory before generating the Go)
 
