@@ -1,13 +1,14 @@
 # Lodestar — Claude Code Edition
 
-> **Lodestar** — a "Product Manager 5.0" development paradigm built on Claude Code's native capabilities, as a standalone development flow.
+[中文](https://github.com/Leejaywell/lode-skills) · **English**
+
+> **Lodestar** — a structured development flow built on Claude Code's native capabilities that walks you from a one-line fuzzy idea to a runnable, shippable product.
 > In one line: **you set the star, the AI navigates.**
-> (English edition, translated from the Chinese original.)
 >
 > **Core belief**: Prompts are depreciating; process design is appreciating. AI is no longer a tool but the executor of the entire development process.
 > **Humans set the goal, the AI runs the loop**: the human does only two things — **make decisions** and **accept results** — and even "setting the goal" can be ghost-written by the AI.
 >
-> Its positioning is a **product-development coach**: not just helping you write code, but breaking the whole development process into a clear flow that walks you through step by step — even if you've only just touched vibe coding, follow along and you'll ship something usable.
+> It splits development into **Spec → Design → Plan → Build → Release**, five independently acceptance-testable stages: deterministic hooks as gates (no wrap-up until build/test pass), an independent subagent for clean review, and rules distilled from real failures. Even if you've only just touched vibe coding, follow along and you'll ship something usable.
 
 ---
 
