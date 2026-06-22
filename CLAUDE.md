@@ -97,6 +97,7 @@ Principle: **two kinds of rules, don't conflate them**.
 ## [General Rules] (key points from the original)
 
 - **Give the next step at every step's end and every block**: when a step finishes, or the gate/breaker/review blocks you, say in a line or two ① where things stand now ② what to type / do next (with the concrete command) ③ whether the user needs to decide something. Don't make the user guess the next step. No matter how the user interrupts or raises new questions, return to this guidance after answering.
+- **Multi-step work goes on the board (the user can see progress)**: once work splits into multiple slices / steps, mirror them into the **native todo list** and keep it synced with status, so the user sees live in the UI "how many slices, where it's at, what's left." **The durable truth stays `dev-plan.md` / `ledger.jsonl`** — the todo is just a board, not the source of truth; **only tick a todo done after the gate / audit actually passes**, never tick it without passing the gate. Don't force a board onto one- or two-step trivia (noise).
 - Always communicate in the user's language (project-level preference, adjust as needed).
 - **Web-first**: for external APIs and framework versions, search to confirm before acting.
 - **Self-evolution**: a user correction is captured as a signal into `signals.jsonl`; `hooks/lode-signal.sh` (UserPromptSubmit) catches only the obvious by keyword, and the main agent backfills what the hook missed.

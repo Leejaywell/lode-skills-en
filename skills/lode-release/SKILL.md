@@ -30,6 +30,7 @@ In solo mode, "completion" = local build + `review-passed`. **Team / long-lived 
 - Acceptance/install instructions provided, so the user can get it running.
 - **Actively demo it running**: after packaging/building, run it yourself and screenshot, or give a "install like this, run like this" command — let the user see the finished product running, not just hand over a package.
 - **Team mode**: all PRs passed CI + approved and merged; the release is cut from mainline.
+- Put the release steps (privacy audit → package → demo → ship) on the **native todo list**, ticking one at a time so the user sees the wrap-up progress.
 
 ## Guardrails (red lines)
 

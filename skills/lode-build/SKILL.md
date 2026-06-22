@@ -39,6 +39,7 @@ For the current slice:
 - Passes the four-step audit, and appends the change to `.lode/<project>/changelog.md` (what/why/blast-radius).
 - After each slice passes review, make a **local commit** (no push) as a rollback point — if a long self-driving loop crashes, you can fall back to the last runnable slice.
 - When design or requirements change, write back to `design-brief.md` / `product-spec.md` / `dev-plan.md` to keep docs in sync.
+- Keep the current slice synced in the **native todo list** throughout (mark in-progress when you start, tick done only when all four steps pass), so the user sees progress live in the UI; **ticking without passing the gate doesn't count** — passed is judged by `verify.sh` / review for real.
 
 ## Guardrails (red lines)
 

@@ -25,6 +25,7 @@ Produce `.lode/<project>/dev-plan.md` (covering current-doc-status notes, tech-s
 - Tech selection and key architecture decisions have brief notes and rationale.
 - The first slice is the "thinnest runnable" skeleton, validating the loop works as early as possible.
 - Define this project's **deterministic verification command** (build + test), for lode-build to land as `.lode/<project>/verify.sh` and the Stop gate to actually run — moving "did build/test pass" out of model self-assessment and into a program.
+- **Seed the task board**: once the slices are set, write the slice list into the **native todo list** (one item per slice) as the starting point of the live progress board for build / auto — so the user sees "how many slices" right in the UI.
 
 ## Changing existing code extra (when changing an existing project, mandatory per change-slice)
 
