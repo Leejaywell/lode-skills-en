@@ -125,6 +125,8 @@ The lean mainline is tuned for **one person · from scratch · the first version
 
 Building from scratch takes the leanest flow; only when you're changing existing code or working in a team do the heavier guardrails kick in. **Autonomous ≠ unattended**: even with `lode-auto` running on its own, you still show up at "review the PR" and "catch the breaker."
 
+> **Small tasks stay light**: for a ten-line change or a config tweak, a one-sentence spec, a single slice, and skipping design are all fine — the gate only bites once dev has started. Full guardrails are for big work / brownfield / teams.
+
 ---
 
 ## Design principles: three iron rules
@@ -141,6 +143,6 @@ Building from scratch takes the leanest flow; only when you're changing existing
 | Top-level rules | `CLAUDE.md` | `CLAUDE.md` |
 | Independent subagents (review / recon / evolve) | `Agent` tool + subagent | `agents/lode-{review,recon,evolve}.md` |
 | Deterministic rules → gate | **Hooks** (plugin `hooks/hooks.json` / project `.claude/settings.json`) | `hooks/` |
-| Self-evolution (signals→proposals→rule base) | `CLAUDE.md` rule base + `lode-evolve` | `CLAUDE.md` + `skills/lode-evolve` |
+| Self-evolution (signals→proposals→rule base) | `CLAUDE.md` rule base + `lode-evolve` (auto-prompted at session start) | `CLAUDE.md` + `skills/lode-evolve` |
 | Doc-driven | runtime artifacts | `.lode/` (`system-map → product-spec → design-brief → dev-plan → code → changelog`) |
 | order = goal+standards+acceptance+constraints+execution | structured order instruction | `skills/lode-order` |
