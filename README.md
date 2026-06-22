@@ -67,7 +67,7 @@ Extensions (as needed):
 
 ## Install
 
-> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — install once, then just `/lode-spec` in any project; everything else is automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available.
+> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — install once, then just `/lode-spec` in any project; everything else is automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available — now also one line, with the gate auto-wired.
 
 ### Method 1: plugin install (recommended)
 
@@ -85,13 +85,18 @@ Extensions (as needed):
 
 ### Method 2: script install (fallback: environments without the plugin system)
 
-No clone needed — one line installs into `~/.claude/`:
+No clone needed — **one line, as effortless as Method 1**:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/install.sh | bash
 ```
-> Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target.
+> Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target; `LODE_NO_HOOKS=1` skips auto-wiring the gate.
 
-Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`…), the gate scripts into `~/.claude/lode-hooks/`, and source assets (`CLAUDE.md` + templates) into `~/.claude/lodestar/` (so spec/build can auto-provision). `CLAUDE.md`/`verify.sh` are still auto-provisioned by the flow. **The one manual step** (there's no plugin to wire the gate): merge the `hooks` block from `hooks/settings.json` into the project's `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`; first `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`). If that's a hassle, use Method 1.
+**After install, just like Method 1 — in any project type `/lode-spec`, with nothing to configure:**
+
+- Skills/subagents install into `~/.claude/`; source assets (`CLAUDE.md` + templates) go to `~/.claude/lodestar/` for auto-provisioning.
+- **The gate is auto-wired into `~/.claude/settings.json`** (active everywhere, idempotent, original backed up to `settings.json.bak`) — no manual merge. It exit-passes when there's no `.lode/` workspace, so global activation has no side effect.
+- `CLAUDE.md`/`verify.sh` are auto-provisioned by the flow.
+- **The only difference from Method 1**: commands are the **bare** `/lode-spec` (no `/lodestar:` prefix).
 
 ---
 
