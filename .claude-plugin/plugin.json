@@ -1,0 +1,14 @@
+{
+  "name": "lodestar",
+  "displayName": "Lodestar",
+  "version": "0.1.0",
+  "description": "A structured development workflow that interrogates a vague idea into a runnable, shippable product. 14 lode-* skills (spec → design → plan → build → release) + an independent reviewer subagent + a deterministic wrap-up gate (no wrap-up until build/test pass).",
+  "author": {
+    "name": "Jay",
+    "url": "https://github.com/Leejaywell"
+  },
+  "homepage": "https://github.com/Leejaywell/lode-skills-en",
+  "repository": "https://github.com/Leejaywell/lode-skills-en",
+  "keywords": ["workflow", "spec-driven", "pm", "greenfield", "brownfield", "agent", "lodestar"],
+  "hooks": "./hooks/hooks.json"
+}
