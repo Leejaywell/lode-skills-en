@@ -19,8 +19,8 @@ Extension skill. Lays down the per-project files in one shot.
 `<project>` = the current project's directory name.
 
 1. **Top-level rules `CLAUDE.md` → project root**: Lodestar's operating conventions.
-   - Source location: plugin install → `${CLAUDE_PLUGIN_ROOT}/CLAUDE.md`; script install → the repo you cloned. Probe with `echo "$CLAUDE_PLUGIN_ROOT"` first; if empty, look under `~/.claude` or the clone dir; **if you can't find it, stop and ask the user where Lodestar is installed** — don't regenerate one from memory (it'll be stale).
-2. **`.lode/<project>/verify.sh` skeleton**: copy from `docs/templates/verify.sh`, `chmod +x`. This is the build+test script the wrap-up gate actually runs — **lay the skeleton now; the real commands are filled by the first `lode-build`**.
+   - Source location: plugin install → `${CLAUDE_PLUGIN_ROOT}/CLAUDE.md`; script install → `~/.claude/lodestar/CLAUDE.md`. Probe with `echo "$CLAUDE_PLUGIN_ROOT"` first; if empty, look under `~/.claude/lodestar/`; **if you can't find it, stop and ask the user where Lodestar is installed** — don't regenerate one from memory (it'll be stale).
+2. **`.lode/<project>/verify.sh` skeleton**: copy from `~/.claude/lodestar/templates/verify.sh` (plugin install: `${CLAUDE_PLUGIN_ROOT}/docs/templates/verify.sh`), `chmod +x`. **Lay the skeleton now; the real commands are normally written by the first `lode-build`**.
 3. **`.lode/<project>/` directory**: create it; all later artifacts (spec/plan/changelog…) land here.
 
 > A script install (non-plugin) still needs the `hooks` block from `hooks/settings.json` merged into `.claude/settings.json` — that's not lode-init's job, see README. A plugin install already has the gate active.

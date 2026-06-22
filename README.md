@@ -8,7 +8,7 @@ It doesn't promise to make your product good — what it guarantees is: every st
 
 The whole method is three things:
 
-- **Deterministic judgments go to a hook**: build/test fail → wrap-up is blocked; the gate doesn't just trust the model's "should be fine."
+- **Deterministic judgments go to a program (a hook — Claude Code's hook script)**: build/test fail → wrap-up is blocked; the gate doesn't just trust the model's "should be fine."
 - **Review goes to a subagent that didn't write the code**: only a clean brain reviews accurately.
 - **Rules grow from real failures**: write a rule only after hitting the wall; delete the ones that don't earn their place — rules may only get leaner, never pile up.
 
@@ -26,6 +26,8 @@ what to build   to concrete into     runs the  + package
 
 Each stage produces a doc under `.lode/<project>/`, which feeds the next stage — the AI carries context across stages through these docs, not memory.
 
+> **What's a Face**: an independent, separately acceptance-testable slice of work. The plan stage (`lode-plan`) splits the goal into Faces; you build and accept them one at a time.
+
 **The four-step audit** (every Face must run it, ordered "deterministic → judgment"): build verification → test completeness → code review → functional test. The first two are actually run by the gate; the last two go to a subagent / human. All four pass → Done.
 
 > **Tests bound to requirements**: each Face's "acceptance scenarios" are defined in the plan stage **before building**; tests are written to the scenarios and review checks against them — closing the "green tests but wrong feature" gap.
@@ -40,7 +42,7 @@ Mainline (`①→⑥`):
 
 | # | Command (= skill name) | What it does | Output |
 |---|---|---|---|
-| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta) | `product-spec.md` + `system-map.md` |
+| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta = write only what changes) | `product-spec.md` + `system-map.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | `mockups/` |
 | 4 | `/lode-plan` | Split into Faces (when changing existing code: impact analysis/migration/baseline) | `dev-plan.md` |
@@ -89,7 +91,7 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 ```
 > Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target.
 
-Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`…), and the gate scripts into `~/.claude/lode-hooks/`. `CLAUDE.md`/`verify.sh` are still auto-provisioned by the flow. **The one manual step** (there's no plugin to wire the gate): merge the `hooks` block from `hooks/settings.json` into the project's `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`; first `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`). If that's a hassle, use Method 1.
+Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`…), the gate scripts into `~/.claude/lode-hooks/`, and source assets (`CLAUDE.md` + templates) into `~/.claude/lodestar/` (so spec/build can auto-provision). `CLAUDE.md`/`verify.sh` are still auto-provisioned by the flow. **The one manual step** (there's no plugin to wire the gate): merge the `hooks` block from `hooks/settings.json` into the project's `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`; first `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`). If that's a hassle, use Method 1.
 
 ---
 
@@ -100,7 +102,7 @@ Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-s
 ```
 /lode-drive Finish <goal>
 ```
-`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the breaker when stuck. You show up only to **review the PR** and **handle the breaker**.
+`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
 
 ### B. Manual, step by step — when you want to drive each stage
 
