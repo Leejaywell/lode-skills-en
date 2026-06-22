@@ -98,6 +98,12 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 - `CLAUDE.md`/`verify.sh` are auto-provisioned by the flow.
 - **The only difference from Method 1**: commands are the **bare** `/lode-spec` (no `/lodestar:` prefix).
 
+### Uninstalling
+
+- **Plugin install**: `/plugin uninstall lodestar@lodestar`, then `/plugin marketplace remove lodestar`.
+- **Script install**: `bash ~/.claude/lode-uninstall.sh` (left there by the installer; works offline — or remote `curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/uninstall.sh | bash`). It removes Lodestar's skills/subagents/gate scripts/source assets and **un-wires the gate from `~/.claude/settings.json`** — only our two entries; your other hooks stay, original backed up to `.bak`.
+- Either way, your per-project `.lode/`, project `CLAUDE.md`, and `verify.sh` are **left untouched** (they're your artifacts) — to clear them, `rm -rf .lode` in that project yourself.
+
 ---
 
 ## How to use
