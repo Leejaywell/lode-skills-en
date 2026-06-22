@@ -4,7 +4,7 @@
 
 Lodestar is a structured development workflow that runs on Claude Code. It splits a fuzzy idea into five independently-verifiable stages: **requirements → design → plan → build → release**.
 
-It doesn't promise to make your product good — what it guarantees is: every stage has an explicit "what counts as done"; the deterministic part (build/test) is hard-blocked by a program — fail it and you can't wrap up; the uncertain part (requirements, review) is interrogated until it's clear.
+It doesn't promise to make your product good — what it guarantees is: every stage has an explicit "what counts as done"; the deterministic part (build/test) is hard-blocked by a program — fail it and you can't wrap up; the uncertain part (requirements, review) is pinned down until it's clear.
 
 The whole method is three things:
 
@@ -18,7 +18,7 @@ The whole method is three things:
 
 ```
 requirements ─→ design ─→ plan ──→ build ───→ release
-interrogate     translate  split    each slice  privacy audit
+pin down     translate  split    each slice  privacy audit
 what to build   to concrete into     runs the  + package
                 decisions  slices     4-step audit
                 (optional)
@@ -42,7 +42,7 @@ Mainline (`①→⑥`):
 
 | # | Command (= skill name) | What it does | Output |
 |---|---|---|---|
-| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta = write only what changes) | `product-spec.md` + `system-map.md` |
+| 1 | `/lode-spec` | **Pin down** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta = write only what changes) | `product-spec.md` + `system-map.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | `mockups/` |
 | 4 | `/lode-plan` | Split into slices (when changing existing code: impact analysis/migration/baseline) | `dev-plan.md` |
@@ -119,7 +119,7 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 
 From scratch minimal loop:
 ```
-/lode-spec    # interrogate requirements → product-spec.md
+/lode-spec    # pin down requirements → product-spec.md
 /lode-plan    # split into slices (each slice's acceptance scenarios first) → dev-plan.md
 /lode-order      # generate one slice's order, paste & run it → four-step audit loop
 ```

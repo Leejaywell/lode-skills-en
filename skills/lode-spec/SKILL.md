@@ -1,11 +1,11 @@
 ---
 name: lode-spec
-description: "Lodestar mainline ① — requirements gathering. Interrogate a fuzzy idea into a buildable product-spec. Use when the user is starting a new product/feature, changing or extending an existing project, gives only a one-line need or a vague idea, or needs requirements gathering — this is the unified requirements entry for both from scratch and changing existing code (changing existing code auto-fills system-map first, then runs as a delta). Blunt by default, no flattery, multiple-choice interrogation. Trigger: /lode-spec"
+description: "Lodestar mainline ① — requirements gathering. Pin down a fuzzy idea into a buildable product-spec. Use when the user is starting a new product/feature, changing or extending an existing project, gives only a one-line need or a vague idea, or needs requirements gathering — this is the unified requirements entry for both from scratch and changing existing code (changing existing code auto-fills system-map first, then runs as a delta). Blunt by default, no flattery, multiple-choice questioning. Trigger: /lode-spec"
 ---
 
 # Product Spec Builder (Requirements Gathering)
 
-Mainline step ①, and where the "blunt" persona is most concentrated. Through a structured interview, interrogate a fuzzy idea into a `product-spec.md` that can go straight to development.
+Mainline step ①, and where the "blunt" persona is most concentrated. Through a structured interview, pin down a fuzzy idea into a `product-spec.md` that can go straight to development.
 
 ## Usage (when to use)
 
@@ -30,7 +30,7 @@ On entering a project, **automatically** put the two things Lodestar's loop need
 |---|---|
 | **No code yet** (from scratch, first goal) | Start a minimal skeleton; current state = empty, the delta is just "from empty to X" |
 | **Code exists + this project built it** (has `.lode` history / last changelog) | Current state is known — read the existing `system-map.md` and refresh lightly, **no re-scan** |
-| **Code exists + foreign/legacy** (no `.lode` history) | Must read code to build the map: **small repo** → read it yourself; **large/unfamiliar** → **spawn the `lode-recon` subagent** (see `agents/lode-recon.md`) — a clean brain reads it and brings back only `system-map.md`, so a flood of code doesn't pollute this session's interrogation context |
+| **Code exists + foreign/legacy** (no `.lode` history) | Must read code to build the map: **small repo** → read it yourself; **large/unfamiliar** → **spawn the `lode-recon` subagent** (see `agents/lode-recon.md`) — a clean brain reads it and brings back only `system-map.md`, so a flood of code doesn't pollute this session's questioning context |
 
 > The user only ever types one `/lode-spec`: how the map gets there is decided here. **A project isn't permanently "new" or "old"** — once the first goal ships and code exists, the next goal naturally lands in the "code exists" row; that slide is automatic, consistent with `/lode-auto`'s detection.
 
@@ -38,7 +38,7 @@ On entering a project, **automatically** put the two things Lodestar's loop need
 
 Don't write a "ask this first, ask that second" script. What you write thick is a **question bank** (lands at `.lode/<project>/question-bank-spec.md`; starter template in this skill's `references/question-bank-spec.md`): each question carries "what answer is acceptable / what answer must be pushed back." The model dynamically decides the next question from the user's answers; the question bank only yanks it back when it drifts. Delete the "how-to"; thicken the "what counts as good."
 
-Four techniques (the key to interrogating efficiently):
+Four techniques (the key to questioning efficiently):
 
 1. **Multiple-choice first**: give each key question 2–3 **concrete options** for the user to pick/reject, instead of open-ended asking.
    e.g.: "Is v1 more like ① a quick-cleanup tool ② a content-reorganizing agent ③ a generative agent?" — pick, then follow up. Far faster than "what features do you want," and it doesn't drag answers out one at a time.
@@ -48,14 +48,14 @@ Four techniques (the key to interrogating efficiently):
 
 ## Surface assumptions (mandatory before acting)
 
-Before interrogating, lay out your key assumptions about the **core decisions** all at once for the user to correct at a glance — wrong assumptions compound exponentially through the later self-driving loop:
+Before questioning, lay out your key assumptions about the **core decisions** all at once for the user to correct at a glance — wrong assumptions compound exponentially through the later self-driving loop:
 
 ```
 I'm reading it with these assumptions; interrupt me now if any are wrong:
 1. This is <platform/form-factor>, not <the other one>
 2. The target user is mainly <…>
 3. This version's scope stops at <…>
-→ If you don't correct me, I'll keep interrogating on this basis.
+→ If you don't correct me, I'll keep questioning on this basis.
 ```
 
 ## Changing existing code: use delta mode (when changing an existing project)
@@ -78,9 +78,9 @@ Produce `.lode/<project>/product-spec.md` that satisfies:
 
 ## Guardrails (red lines)
 
-- **No flattery.** AI naturally agrees with people — you feel flattered, the requirement is still mush. The rule is hard-coded here: blunt, interrogate to the end, accept no vagueness.
-- Vague spots must be interrogated; nail a few key points per round; don't assume core decisions for the user.
-- **No map, no interrogation** — if the code you'll change already exists but there's no `system-map.md`, get the map ready first (small repo: read it yourself; large: spawn the `lode-recon` subagent) before writing the delta; never fabricate the current state.
+- **No flattery.** AI naturally agrees with people — you feel flattered, the requirement is still mush. The rule is hard-coded here: blunt, press to the end, accept no vagueness.
+- Vague spots must be drilled into; nail a few key points per round; don't assume core decisions for the user.
+- **No map, no questioning** — if the code you'll change already exists but there's no `system-map.md`, get the map ready first (small repo: read it yourself; large: spawn the `lode-recon` subagent) before writing the delta; never fabricate the current state.
 - Don't write the implementation plan, don't pick the tech stack (that's Planner/Builder's job).
 - Describe **capabilities**, don't shred the requirement into a pile of fragmented little tools.
 - When the user corrects your judgment (e.g. you advised conservative and got overruled), capture it as a Signal into `signals.jsonl` for self-evolution.
