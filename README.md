@@ -82,6 +82,8 @@ Then just use it. Rules, the gate, and `verify.sh` are all auto-provisioned by t
 curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/install.sh | bash
 ```
 
+**Update**: plugin — `/plugin marketplace update lodestar` then `/plugin update lodestar@lodestar`; script — re-run the `curl … | bash` line above (idempotent overwrite, the gate isn't double-wired). Updates take effect in a **new session** (hooks are read at session start / wrap-up); your project's already-generated `.lode/` artifacts are untouched.
+
 **Uninstall**: plugin `/plugin uninstall lodestar@lodestar`; script `bash ~/.claude/lode-uninstall.sh`. Your project's `.lode/` artifacts are kept by default.
 
 > Details (how the gate is wired, where files go, `LODE_NO_HOOKS` / `--purge-project`) are printed by `install.sh` when it runs.
@@ -110,6 +112,36 @@ Give one goal; it decides from-scratch/changing-existing-code and solo/team, spl
 ```
 - Want mockups? insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release`.
 - **The rest (recon / review / init…) the framework calls when it's time — you don't invoke them by hand.**
+
+---
+
+## The docs you'll see
+
+Lodestar is **doc-driven** throughout — the AI carries context across stages through these docs, not memory, and you use them to track progress and edit requirements. They live in two places, split by "should this be in git":
+
+**`docs/` (git-tracked — your deliverables)**
+
+| File | What it is | Do you touch it? |
+|---|---|---|
+| `spec.md` | The **one durable source of truth** for requirements: what we're actually building now. Evolves in place, archives old items, stays bounded | ✅ The one to read; when requirements change, edit here (or have the AI do it) |
+| `spec-changelog.md` | Requirements change log (one line each: date / what / why) | Read it to trace "how the requirement got to today" |
+
+**`.lode/` (runtime working drafts — gitignored by default, not committed)**
+
+| File | What it is | Do you touch it? |
+|---|---|---|
+| `system-map.md` | A **living map** of the code's current state (architecture / conventions / interfaces). Created by spec, updated by build each slice | Read it to quickly grasp "what this codebase looks like" |
+| `dev-plan.md` | The dev plan: slice breakdown + each slice's **acceptance scenarios** | Read it to see "how many slices, what each must satisfy" |
+| `changelog.md` | What each slice did (timestamped) | Read it to see "what changed this round" |
+| `design-brief.md` / `mockups/` | Design brief / prototype (only present if you used `/lode-brief`·`/lode-design`) | Read it when you care about the design direction |
+| `verify.sh` | Wraps this project's "build + full test" into one command; **the wrap-up gate actually runs it** | Usually leave it alone; the gate prompts you if it isn't configured |
+| `goal.md` / `ledger.jsonl` | Autopilot's goal + progress ledger (resumable after a crash, auditable when done) | Read for progress / audit when using `/lode-auto` |
+| `signals.jsonl` / `proposals.md` | Self-evolution: your correction-signal queue + distilled rule proposals | Leave it; `/lode-evolve` digests it |
+| `review-passed` · `.verify-green` · `.gate-attempts` | Gate bookkeeping: review marker / verify cache / breaker counter | **Leave entirely alone** — the program generates and rewrites these |
+
+> **The split principle**: `docs/spec*.md` is the **durable, git-tracked** source of truth; everything in `.lode/` is working state — consumed within a cycle (plan / changelog / design), regenerable (system-map / verify), or pure bookkeeping (ledger / signals / gate cache). `.gitignore` should ignore `.lode/` and track `docs/spec*.md` — `lode-spec` / `lode-init` wire this up at the start, so you don't set it by hand.
+>
+> There's also a top-level `CLAUDE.md` at the project root (Lodestar's operating conventions, auto-provisioned) — it governs how the AI runs the loop; normally you don't touch it.
 
 ---
 
