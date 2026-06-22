@@ -18,19 +18,19 @@ The whole method is three things:
 
 ```
 requirements ─→ design ─→ plan ──→ build ───→ release
-interrogate     translate  split    each Face  privacy audit
+interrogate     translate  split    each slice  privacy audit
 what to build   to concrete into     runs the  + package
-                decisions  Faces     4-step audit
+                decisions  slices     4-step audit
                 (optional)
 ```
 
 Each stage produces a doc under `.lode/<project>/`, which feeds the next stage — the AI carries context across stages through these docs, not memory.
 
-> **What's a Face**: an independent, separately acceptance-testable slice of work. The plan stage (`lode-plan`) splits the goal into Faces; you build and accept them one at a time.
+> **What's a slice**: an independent, separately acceptance-testable piece of work. The plan stage (`lode-plan`) splits the goal into slices; you build and accept them one at a time.
 
-**The four-step audit** (every Face must run it, ordered "deterministic → judgment"): build verification → test completeness → code review → functional test. The first two are actually run by the gate; the last two go to a subagent / human. All four pass → Done.
+**The four-step audit** (every slice must run it, ordered "deterministic → judgment"): build verification → test completeness → code review → functional test. The first two are actually run by the gate; the last two go to a subagent / human. All four pass → Done.
 
-> **Tests bound to requirements**: each Face's "acceptance scenarios" are defined in the plan stage **before building**; tests are written to the scenarios and review checks against them — closing the "green tests but wrong feature" gap.
+> **Tests bound to requirements**: each slice's "acceptance scenarios" are defined in the plan stage **before building**; tests are written to the scenarios and review checks against them — closing the "green tests but wrong feature" gap.
 
 ---
 
@@ -45,7 +45,7 @@ Mainline (`①→⑥`):
 | 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta = write only what changes) | `product-spec.md` + `system-map.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | `mockups/` |
-| 4 | `/lode-plan` | Split into Faces (when changing existing code: impact analysis/migration/baseline) | `dev-plan.md` |
+| 4 | `/lode-plan` | Split into slices (when changing existing code: impact analysis/migration/baseline) | `dev-plan.md` |
 | 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `changelog.md` |
 | 6 | `/lode-release` | Privacy audit + package & release (team: PR/CI) | Release |
 
@@ -55,7 +55,7 @@ Extensions (as needed):
 
 | Command (= skill name) | Use |
 |---|---|
-| `/lode-drive` | **Autonomous driver**: give one goal, the agent splits milestones→Faces and runs to the end; resumable, auditable ledger |
+| `/lode-drive` | **Autonomous driver**: give one goal, the agent splits milestones→slices and runs to the end; resumable, auditable ledger |
 | `/lode-go` | Write a good **Go** (goal/standards/acceptance/constraints/execution strategy) |
 | `/lode-review` | Fan out a subagent that **didn't write the code** for independent review (incl. regression/security/traceability) |
 | `/lode-fix` | Reproduce → locate → minimal fix → regression |
@@ -113,20 +113,20 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 ```
 /lode-drive Finish <goal>
 ```
-`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
+`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→slices, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
 
 ### B. Manual, step by step — when you want to drive each stage
 
 From scratch minimal loop:
 ```
 /lode-spec    # interrogate requirements → product-spec.md
-/lode-plan    # split into Faces (each Face's acceptance scenarios first) → dev-plan.md
-/lode-go      # generate one Face's Go, paste & run it → four-step audit loop
+/lode-plan    # split into slices (each slice's acceptance scenarios first) → dev-plan.md
+/lode-go      # generate one slice's Go, paste & run it → four-step audit loop
 ```
 
 - **Changing existing code**: still just `/lode-spec` — at the start it gets `system-map.md` ready automatically (reads the existing map for a project you built; spawns the `lode-recon` subagent to read a large foreign repo), then runs as a delta (current→target + must-never-break). Nothing else to type first.
 - Full chain: insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release` (team: PR/CI).
-- Three granularities for one Face: the main agent runs `lode-build` through the plan / write a Go per Face (most common) / one Go for the whole thing (most efficient once fluent).
+- Three granularities for one slice: the main agent runs `lode-build` through the plan / write a Go per slice (most common) / one Go for the whole thing (most efficient once fluent).
 
 ---
 

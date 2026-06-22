@@ -26,7 +26,7 @@ fi
 # 1) Build
 # npm run build
 
-# 2) Full regression tests (existing + new; changing existing code especially must not run only this Face's tests)
+# 2) Full regression tests (existing + new; changing existing code especially must not run only this slice's tests)
 # npm test
 
 # 3) Optional: typecheck / lint (universal invariants — recommend gating these too)

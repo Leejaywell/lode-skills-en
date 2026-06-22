@@ -11,7 +11,7 @@ Extension skill. **Go is the entry point of the whole loop**: all the standards 
 
 ## Usage (when to use)
 
-- The dev plan is ready, and you're handing one Face (or all Faces) to the AI to self-drive.
+- The dev plan is ready, and you're handing one slice (or all slices) to the AI to self-drive.
 - Any step lacks an executable, acceptance-testable Go.
 
 ## Done (a Go has five sections)
@@ -19,8 +19,8 @@ Extension skill. **Go is the entry point of the whole loop**: all the standards 
 1. **Objective**: what to accomplish (one-line deliverable, e.g. "finish dev-plan Phase 1").
 2. **Done criteria**: what counts as done — program-judgeable (build with zero errors / all tests pass / review passes), listed item by item.
 3. **Acceptance method**: how to verify — checkable evidence (key command output / test results / list of created-modified files / review report).
-4. **Constraints**: what not to touch (e.g. don't change product-spec/design-brief, don't move the settled UI, **no push, don't delete prototype files**, unless the user confirms). Note: a **local commit** after each Face passes review **is allowed** (as a rollback point); the constraint is on irreversible outward-facing actions (push/store submission).
-5. **Execution strategy + circuit breaker**: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks — **but set a breaker: stop and ask the human after ≥3 consecutive failures on the same Face or a token-budget overrun; don't retry forever**.
+4. **Constraints**: what not to touch (e.g. don't change product-spec/design-brief, don't move the settled UI, **no push, don't delete prototype files**, unless the user confirms). Note: a **local commit** after each slice passes review **is allowed** (as a rollback point); the constraint is on irreversible outward-facing actions (push/store submission).
+5. **Execution strategy + circuit breaker**: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks — **but set a breaker: stop and ask the human after ≥3 consecutive failures on the same slice or a token-budget overrun; don't retry forever**.
 
 ## Surface assumptions (mandatory before generating the Go)
 
@@ -28,7 +28,7 @@ Before handing the Go to the AI to self-drive, list your key assumptions about *
 
 ```
 I'm setting this Go on these assumptions; correct them now if wrong:
-1. The objective scope stops at <Face N / Phase N>
+1. The objective scope stops at <slice N / Phase N>
 2. <tech/data/dependency> stays as-is, unchanged
 3. Acceptance is judged by <verify.sh all green + review passed>
 → If you don't correct it, send to execute.
@@ -37,8 +37,8 @@ I'm setting this Go on these assumptions; correct them now if wrong:
 ## Three execution modes (paired with lode-plan / lode-build)
 
 1. The main agent uses `lode-build` directly to run the whole plan.
-2. Write **the first Face** as a Go, copy and execute, loop forward (most common).
-3. Plan **all Faces holistically** and write **one Go** to develop it all in one pass (most efficient once practiced).
+2. Write **the first slice** as a Go, copy and execute, loop forward (most common).
+3. Plan **all slices holistically** and write **one Go** to develop it all in one pass (most efficient once practiced).
 
 ## Guardrails (red lines)
 

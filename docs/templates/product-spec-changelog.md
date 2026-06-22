@@ -6,5 +6,5 @@
 
 ## <date> — <one-line summary>
 - **What changed**:
-- **Why** (source: user decision / signal evolution / Face back-pressure):
+- **Why** (source: user decision / signal evolution / slice back-pressure):
 - **Impact**: do downstream design-brief / dev-plan need syncing:

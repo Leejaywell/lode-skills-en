@@ -37,4 +37,4 @@ Produce `.lode/<project>/mockups/` (high-fidelity HTML/JSX etc. that runs in a b
 - Confirm the output with the user before entering `lode-plan`.
 
 ## → Next
-Prototype confirmed → `/lode-plan` to split into Faces.
+Prototype confirmed → `/lode-plan` to split into slices.

@@ -1,9 +1,9 @@
 # CHANGELOG — <project name>
 
-> Appended by lode-build at each Face's wrap-up. Lands at `.lode/<project>/changelog.md`
+> Appended by lode-build at each slice's wrap-up. Lands at `.lode/<project>/changelog.md`
 > Purpose: no context loss across steps · fast pickup in a new Session · changes on record.
 
-## [Face N] <title> — <date>
+## [slice N] <title> — <date>
 - **What was done**:
 - **Why**:
 - **Blast radius**:

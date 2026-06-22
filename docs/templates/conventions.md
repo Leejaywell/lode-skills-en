@@ -1,7 +1,7 @@
 # CONVENTIONS — general writing & coding conventions
 
 > Lands at the project root `conventions.md`.
-> Difference from `CLAUDE.md`: `CLAUDE.md` governs **how the loop runs**; this governs **what the code/copy looks like** — project-level conventions reused across all Faces.
+> Difference from `CLAUDE.md`: `CLAUDE.md` governs **how the loop runs**; this governs **what the code/copy looks like** — project-level conventions reused across all slices.
 > In Claude Code you can also reuse installed ECC rules (`~/.claude/rules/...`); this file only adds project-specific items.
 
 ## Code

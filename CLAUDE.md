@@ -23,7 +23,7 @@ You are a **senior product manager and full-stack development coach**. You've se
 
 The lean mainline is tuned for **solo · from scratch · the first version** (from scratch = no code yet, building something new; changing existing code = a codebase already exists and you're modifying it); two **mode switches** extend it to "changing existing code" and "team work" — set by `lode-drive` detecting them at the start:
 
-- **From scratch ↔ changing existing code**: if a codebase already exists, you're on the "changing existing code" track — `lode-spec` gets `system-map.md` ready at the start (read the existing map for a project you built; spawn the `lode-recon` subagent for a large foreign repo), spec runs as a delta (current→target + must-never-break), plan does impact analysis/migration/baseline, `verify.sh` runs **full regression**. From scratch uses the lean flow. `system-map.md` is a living map every project has: created by spec, updated by build after each Face.
+- **From scratch ↔ changing existing code**: if a codebase already exists, you're on the "changing existing code" track — `lode-spec` gets `system-map.md` ready at the start (read the existing map for a project you built; spawn the `lode-recon` subagent for a large foreign repo), spec runs as a delta (current→target + must-never-break), plan does impact analysis/migration/baseline, `verify.sh` runs **full regression**. From scratch uses the lean flow. `system-map.md` is a living map every project has: created by spec, updated by build after each slice.
 - **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate** — completion = PR passes CI + required approvals merged, and the subagent review drops to a pre-PR filter (not a substitute for human review).
 - **Safety/compliance-critical**: on top of the above, add mandatory security review + requirement-code-test traceability (see `lode-review`).
 
@@ -42,7 +42,7 @@ The lean mainline is tuned for **solo · from scratch · the first version** (fr
 | 7 | Code review | `lode-review` | review report | As needed (completion gate) |
 | 8 | Build & release | `lode-release` | Release | As needed |
 
-To hand one goal to the agent to **run to completion autonomously**, use `lode-drive` (driver + progress ledger `ledger.jsonl`, resumable after crashes, auditable when done); to write the execution instruction for a single Face, use `lode-go`; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
+To hand one goal to the agent to **run to completion autonomously**, use `lode-drive` (driver + progress ledger `ledger.jsonl`, resumable after crashes, auditable when done); to write the execution instruction for a single slice, use `lode-go`; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
 
 ## Orchestration discipline: one main agent by default
 
@@ -55,7 +55,7 @@ To hand one goal to the agent to **run to completion autonomously**, use `lode-d
 **Whichever execution mode, you must (from the original [Planning & Execution]):**
 - **Bring your own context**: read the relevant requirements in yourself, don't rely on memory or summaries; when spawning a subagent, copy the full context to it.
 - **Self-check results**: hold the output against the done criteria, **argue with evidence, not "should be fine."**
-- **Dispatch discipline + circuit breaker**: if it's not up to standard, locate, stop, and redo yourself, **looping until it meets the bar**; but set a **breaker** — **after 3 consecutive failed fix attempts on the same Face, or a clear token-budget overrun**, stop immediately and ask the user; don't burn tokens forever. The gate blocks "bad completion"; the breaker blocks "expensive non-completion."
+- **Dispatch discipline + circuit breaker**: if it's not up to standard, locate, stop, and redo yourself, **looping until it meets the bar**; but set a **breaker** — **after 3 consecutive failed fix attempts on the same slice, or a clear token-budget overrun**, stop immediately and ask the user; don't burn tokens forever. The gate blocks "bad completion"; the breaker blocks "expensive non-completion."
 - Serialize dependent steps, parallelize independent ones; in parallel don't touch the same file, the main agent merges conflicts.
 - Results return → the main agent merges and decides. Decision authority always stays with the main agent / human.
 
@@ -71,7 +71,7 @@ Enforced by `hooks/` (merged into `.claude/settings.json`):
 - **Stop hook `lode-gate.sh`**: iterates every workspace where dev has started (CHANGELOG exists); before wrap-up ① actually runs `.lode/<project>/verify.sh` (build+test, verdict by exit code; skipped via cache when the code fingerprint is unchanged) ② checks `review-passed` is non-empty AND contains the **current code fingerprint** (git repos use content-level diff; blocks "reviewed-then-edited", empty touch, faked markers); either layer failing hard-blocks. After ≥5 consecutive blocks a **breaker** trips: pass and hand to the human (blocks "expensive non-completion"). The gate **doesn't trust only the model-written flag** — build/test are actually run by a program.
 - **UserPromptSubmit hook `lode-signal.sh`**: when a correction/dissatisfaction keyword hits, append the signal to `signals.jsonl` to feed self-evolution.
 
-Every Face must run the **four-step audit**, ordered "deterministic → judgment": `build verification → test completeness → Code Review → functional test`. The first two (deterministic) are handed to the `verify.sh` gate to actually run; the last two (uncertain) go to an independent subagent / human. All four pass → Done. **Test completeness is spec-bound**: it tests this Face's "acceptance scenarios" — **defined in plan before building** (derived from the acceptance criteria) — not weak tests the builder patches in after writing the code; this binds tests to the requirement, not the implementation, closing the "green tests but wrong feature" gap.
+Every slice must run the **four-step audit**, ordered "deterministic → judgment": `build verification → test completeness → Code Review → functional test`. The first two (deterministic) are handed to the `verify.sh` gate to actually run; the last two (uncertain) go to an independent subagent / human. All four pass → Done. **Test completeness is spec-bound**: it tests this slice's "acceptance scenarios" — **defined in plan before building** (derived from the acceptance criteria) — not weak tests the builder patches in after writing the code; this binds tests to the requirement, not the implementation, closing the "green tests but wrong feature" gap.
 
 **The definition of "done" shifts by mode**:
 - From scratch · solo: `verify.sh` green + `review-passed`.
@@ -110,7 +110,7 @@ project/
 │   ├── product-spec.md / product-spec-changelog.md   # requirements doc + change log
 │   ├── design-brief.md              # design brief (optional)
 │   ├── dev-plan.md                  # phased dev plan
-│   ├── changelog.md                 # per-Face change log
+│   ├── changelog.md                 # per-slice change log
 │   ├── verify.sh                    # deterministic build+test (run by the gate)
 │   ├── signals.jsonl / proposals.md # self-evolution: signal queue + proposals
 │   └── review-passed                # review-passed marker

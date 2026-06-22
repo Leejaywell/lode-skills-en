@@ -1,6 +1,6 @@
 ---
 name: lode-release
-description: "Lodestar mainline ⑥ — build & release. Privacy audit + packaging + release, producing a deliverable release build. Use when all Faces are done and review-passed and it's time to package/ship. Trigger: /lode-release"
+description: "Lodestar mainline ⑥ — build & release. Privacy audit + packaging + release, producing a deliverable release build. Use when all slices are done and review-passed and it's time to package/ship. Trigger: /lode-release"
 ---
 
 # Release Builder
@@ -9,14 +9,14 @@ Mainline step ⑥. The wrap-up: **privacy audit → package → release**, produ
 
 ## Usage (when to use)
 
-- All in-plan Faces are done and have passed `lode-review`.
+- All in-plan slices are done and have passed `lode-review`.
 - Ready to produce a distributable artifact (e.g. a Mac/Electron package, a deployable build).
 - A final privacy/security gate is needed before shipping.
 
 ## Team / long-lived: PR/CI completion mode
 
 In solo mode, "completion" = local build + `review-passed`. **Team / long-lived projects switch to VCS-native completion**:
-- Open a **branch** per Face/Epic, atomic commits, open a **PR**.
+- Open a **branch** per slice/Epic, atomic commits, open a **PR**.
 - The subagent review (`lode-review`) runs first as a **pre-PR filter**;
 - "Completion" = **PR passes CI + required approvals → merged to mainline**, not a local marker.
 - Only after merge is the ledger updated to passed; the main agent resolves conflicts.
@@ -32,7 +32,7 @@ In solo mode, "completion" = local build + `review-passed`. **Team / long-lived 
 
 ## Guardrails (red lines)
 
-- Review not passed, Faces not all done → release not allowed (enforced by the gate).
+- Review not passed, slices not all done → release not allowed (enforced by the gate).
 - Privacy audit finds a CRITICAL issue → stop and fix immediately; don't ship sick.
 - Don't sneak new features into the release step; only seal up and package.
 - Confirm with the user before any release action (push / store submission / other irreversible outward-facing operation).

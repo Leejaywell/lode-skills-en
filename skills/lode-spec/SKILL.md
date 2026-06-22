@@ -87,4 +87,4 @@ Produce `.lode/<project>/product-spec.md` that satisfies:
 - Confirm with the user before moving to the next step.
 
 ## → Next
-Requirements set → `/lode-plan` to split into Faces (if the UI is make-or-break, `/lode-brief` first).
+Requirements set → `/lode-plan` to split into slices (if the UI is make-or-break, `/lode-brief` first).

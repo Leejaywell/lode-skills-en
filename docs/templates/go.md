@@ -4,7 +4,7 @@
 > Let the AI fill it from context; you glance and hit send.
 
 ```
-/go Finish <project>'s <dev-plan Phase N / Face N>: <one-line objective>
+/go Finish <project>'s <dev-plan Phase N / slice N>: <one-line objective>
 
 Done criteria:
 1. <program-judgeable, e.g. becomes a runnable Electron + Vite + React + TS project>
@@ -22,7 +22,7 @@ Constraints:
 - Don't change product-spec.md or design-brief.md, unless you find a contradiction that must be written back
 - Don't move the settled UI baseline
 - Don't touch business features outside this phase
-- A local commit after each Face passes review is allowed as a rollback point; but **no push, don't delete prototype files**, unless the user confirms
+- A local commit after each slice passes review is allowed as a rollback point; but **no push, don't delete prototype files**, unless the user confirms
 
-Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the Go is achieved. Circuit breaker: stop and ask the human after ≥3 consecutive failures on the same Face or a token-budget overrun; don't retry forever.
+Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the Go is achieved. Circuit breaker: stop and ask the human after ≥3 consecutive failures on the same slice or a token-budget overrun; don't retry forever.
 ```
