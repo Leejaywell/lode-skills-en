@@ -43,7 +43,7 @@ Mainline (`⓪→⑥`):
 | 0 | `/lode-recon` | **(brownfield)** Map existing architecture/conventions/commands/baseline | `system-map.md` |
 | 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (brownfield → delta) | `product-spec.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
-| 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | mockups/prototype |
+| 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | `mockups/` |
 | 4 | `/lode-plan` | Split into Faces (brownfield: impact analysis/migration/baseline) | `dev-plan.md` |
 | 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `changelog.md` |
 | 6 | `/lode-release` | Privacy audit + package & release (team: PR/CI) | Release |
@@ -64,38 +64,31 @@ Extensions (as needed):
 
 ## Install
 
-> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin** — update, uninstall, and gate wiring are all automatic; the plugin works from two sources: **GitHub** or a **local clone**. After install, run `/lode-init` once in your project to scaffold the per-project files. Script install is only a fallback for old environments.
+> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — update, uninstall, and gate wiring are all automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available. After install, run `/lode-init` once in your project to scaffold the per-project files.
 
-### Plugin install (recommended)
+### Method 1: plugin install (recommended)
 
-**Source 1: GitHub (simplest)**
 ```bash
 /plugin marketplace add Leejaywell/lode-skills-en
 /plugin install lodestar@lodestar
 ```
+> Update: `/plugin marketplace update`. Uninstall: `/plugin uninstall lodestar@lodestar`.
 
-**Source 2: local clone (offline / want to edit the source)**
-```bash
-git clone https://github.com/Leejaywell/lode-skills-en.git
-# inside Claude Code:
-/plugin marketplace add ./lode-skills-en
-/plugin install lodestar@lodestar
-```
-> Update: `git pull` in the repo, then `/plugin marketplace update`. Uninstall: `/plugin uninstall lodestar@lodestar`.
-
-**Both sources end up identical:**
+After install:
 
 - Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-go`… (the model also auto-triggers by description); the `lode-review` and `lode-evolve` subagents come along too.
 - **The gate activates with the plugin** — no manual hooks merge; the gate scripts exit-pass when there's no `.lode/` workspace, so enabling it globally has no side effect.
 - **Run `/lodestar:lode-init` once in the target project**: it scaffolds the top-level `CLAUDE.md` + a `.lode/<project>/verify.sh` skeleton (the two per-project files a plugin won't auto-deploy). Then `/lodestar:lode-spec` to start.
 
-### Script install (fallback: environments without the plugin system)
+### Method 2: script install (fallback: environments without the plugin system)
 
+No clone needed — one line installs into `~/.claude/`:
 ```bash
-git clone https://github.com/Leejaywell/lode-skills-en.git
-cd lode-skills-en && bash install.sh
+curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/install.sh | bash
 ```
-Copies `skills/lode-*` and `agents/lode-*` into `~/.claude/`; commands are the **bare** `/lode-spec`, `/lode-plan`… (project-only: copy `skills/` and `agents/` into the project's `.claude/`). A script install has no automatic plugin gate, so per project: ① merge the `hooks` block from `hooks/settings.json` into `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`, so `cp -R hooks ./` and `chmod +x` first); ② run `/lode-init` to scaffold `CLAUDE.md` + `verify.sh`.
+> Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target.
+
+Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`, `/lode-plan`…), and the gate scripts into `~/.claude/lode-hooks/`. A script install has no automatic plugin gate, so per project: ① `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`, then merge the `hooks` block from `hooks/settings.json` into `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`); ② run `/lode-init` to scaffold `CLAUDE.md` + `verify.sh`.
 
 ---
 
