@@ -11,7 +11,7 @@ Mainline step ⑤. Build **slice by slice** per `dev-plan.md`. The point is the 
 
 - `dev-plan.md` is confirmed; start implementing.
 - A slice's code needs writing / filling in / tuning to acceptance.
-- Usually paired with a **Go** (see `lode-go`) to enter the self-driving loop.
+- Usually paired with an **order** (see `lode-order`) to enter the self-driving loop.
 
 ## At dev start, auto-write `verify.sh` (the vehicle for the deterministic gate — zero user judgment)
 

@@ -15,7 +15,7 @@ Extension skill · completion gate. This is the paradigm's **canonical case for 
 
 ## How to run it (orchestration)
 
-The main agent **fans out a clean-head subagent**: use the `Agent` tool to invoke the `lode-review` subagent (see `agents/lode-review.md`), carrying **the full relevant context** (the change diff, that slice's Go, product-spec/dev-plan excerpts). The subagent returns only a conclusion; **the main agent merges and decides**.
+The main agent **fans out a clean-head subagent**: use the `Agent` tool to invoke the `lode-review` subagent (see `agents/lode-review.md`), carrying **the full relevant context** (the change diff, that slice's order, product-spec/dev-plan excerpts). The subagent returns only a conclusion; **the main agent merges and decides**.
 
 ## Done (what counts as acceptable)
 
@@ -37,5 +37,5 @@ Return a structured review report covering the **four-step audit**: build verifi
 
 - The review subagent **reviews only, doesn't change code**; fixes go back to `lode-build` / `lode-fix`.
 - Review not passed → wrap-up not allowed (enforced by the Stop hook gate, not by good intentions).
-- Review scope aligns to the Go and product-spec; don't expand the requirement under cover of review.
+- Review scope aligns to the order and product-spec; don't expand the requirement under cover of review.
 - Decision authority stays with the main agent / human; the subagent doesn't decide the release for you.

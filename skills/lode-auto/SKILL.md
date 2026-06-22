@@ -1,11 +1,11 @@
 ---
-name: lode-drive
-description: "Lodestar autonomous driver. Take one goal and run the whole mainline autonomously: detect from scratch/changing existing code and solo/team mode → break into milestones and slices → run each through the four-step audit + regression → commit/open PR → update a progress ledger → replan on divergence → until the goal is met or the breaker trips. Use when the user 'sets one goal and wants the agent to run it to completion autonomously.' Trigger: /lode-drive"
+name: lode-auto
+description: "Lodestar autopilot (autonomous run-to-completion). Take one goal and run the whole mainline autonomously: detect from scratch/changing existing code and solo/team mode → break into milestones and slices → run each through the four-step audit + regression → commit/open PR → update a progress ledger → replan on divergence → until the goal is met or the breaker trips. Use when the user 'sets one goal and wants the agent to run it to completion autonomously.' Trigger: /lode-auto"
 ---
 
-# Drive (Autonomous Driver)
+# Autopilot
 
-Lodestar's autonomous brain. This is what makes "one goal → run to completion → from scratch or changing existing code" real: it doesn't write a single Go, it **drives the whole mainline loop**, running to the end on a resumable **progress ledger**.
+Lodestar's autonomous brain. This is what makes "one goal → run to completion → from scratch or changing existing code" real: it doesn't write a single order, it **runs the whole mainline loop on its own**, running to the end on a resumable **progress ledger**.
 
 > Autonomous ≠ unattended. It drives the whole way; the human shows up at just two points: **reviewing PRs** and **handling the breaker**.
 
@@ -19,7 +19,7 @@ Lodestar's autonomous brain. This is what makes "one goal → run to completion 
 1. **From scratch ↔ changing existing code**: a pre-existing codebase means you are changing existing code → spec gets `system-map.md` ready at the start (spawn the `lode-recon` subagent for a large foreign repo), runs in delta mode, plan does impact analysis, verify runs **full regression**. From scratch uses the lean flow.
 2. **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate** — completion = PR passes CI + required approvals merged.
 
-## How to run (the drive loop)
+## How to run (the autopilot loop)
 
 1. **Set the goal**: write it into `.lode/<project>/goal.md` (goal + acceptance-testable done criteria).
 2. **Decompose**: goal → milestones → ordered slices (each slice a Goal, tagged with dependencies/parallelizability/blast-radius). Write into `dev-plan.md`.

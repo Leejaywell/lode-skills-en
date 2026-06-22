@@ -55,8 +55,8 @@ Extensions (as needed):
 
 | Command (= skill name) | Use |
 |---|---|
-| `/lode-drive` | **Autonomous driver**: give one goal, the agent splits milestones→slices and runs to the end; resumable, auditable ledger |
-| `/lode-go` | Write a good **Go** (goal/standards/acceptance/constraints/execution strategy) |
+| `/lode-auto` | **Autopilot**: give one goal, the agent splits milestones→slices and runs to the end; resumable, auditable ledger |
+| `/lode-order` | Write a good **order** (goal/standards/acceptance/constraints/execution strategy) |
 | `/lode-review` | Fan out a subagent that **didn't write the code** for independent review (incl. regression/security/traceability) |
 | `/lode-fix` | Reproduce → locate → minimal fix → regression |
 | `/lode-skill` | Build a new skill: grant full capability, don't shred into tools |
@@ -79,7 +79,7 @@ Extensions (as needed):
 
 **After install just use it — you never decide when any script gets installed:**
 
-- Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-go`… (the model also auto-triggers by description); the `lode-review`, `lode-evolve`, and `lode-recon` subagents come along too.
+- Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-order`… (the model also auto-triggers by description); the `lode-review`, `lode-evolve`, and `lode-recon` subagents come along too.
 - **The gate is always-on via the plugin** — no manual merge, nothing to "enable"; it exit-passes when there's no `.lode/` workspace, so leaving it on globally has no side effect.
 - **Per-project files are provisioned by the flow at the right moment**: `CLAUDE.md` (the rules) is dropped by `lode-spec` the moment you enter a project; `verify.sh` is written by `lode-build` with real commands when development starts. **You just type `/lode-spec`.** (To pre-scaffold by hand: the optional `/lodestar:lode-init` — rarely needed.)
 
@@ -111,9 +111,9 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 ### A. Autonomous (recommended) — one goal, the agent runs it to the end
 
 ```
-/lode-drive Finish <goal>
+/lode-auto Finish <goal>
 ```
-`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→slices, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
+`lode-auto` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→slices, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
 
 ### B. Manual, step by step — when you want to drive each stage
 
@@ -121,18 +121,18 @@ From scratch minimal loop:
 ```
 /lode-spec    # interrogate requirements → product-spec.md
 /lode-plan    # split into slices (each slice's acceptance scenarios first) → dev-plan.md
-/lode-go      # generate one slice's Go, paste & run it → four-step audit loop
+/lode-order      # generate one slice's order, paste & run it → four-step audit loop
 ```
 
 - **Changing existing code**: still just `/lode-spec` — at the start it gets `system-map.md` ready automatically (reads the existing map for a project you built; spawns the `lode-recon` subagent to read a large foreign repo), then runs as a delta (current→target + must-never-break). Nothing else to type first.
 - Full chain: insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release` (team: PR/CI).
-- Three granularities for one slice: the main agent runs `lode-build` through the plan / write a Go per slice (most common) / one Go for the whole thing (most efficient once fluent).
+- Three granularities for one slice: the main agent runs `lode-build` through the plan / write an order per slice (most common) / one order for the whole thing (most efficient once fluent).
 
 ---
 
 ## Scope + modes
 
-The lean mainline is tuned for **one person · from scratch · the first version**; two switches extend it to more complex situations (`lode-drive` detects them at the start — you don't set them by hand):
+The lean mainline is tuned for **one person · from scratch · the first version**; two switches extend it to more complex situations (`lode-auto` detects them at the start — you don't set them by hand):
 
 > Two project situations: **from scratch** = there's no code yet, you're building something new from zero; **changing existing code** = the project already has a codebase and you're modifying it or adding features.
 
@@ -140,7 +140,7 @@ The lean mainline is tuned for **one person · from scratch · the first version
 - **One person ↔ team**: solo uses the local `review-passed` gate; multi-person/long-lived projects switch to the **PR/CI gate**, where the subagent review becomes a pre-PR filter (not a replacement for human review).
 - **Safety/compliance**: plus mandatory security review + one-to-one requirement-code-test traceability.
 
-Building from scratch takes the leanest flow; only when you're changing existing code or working in a team do the heavier guardrails kick in. **Autonomous ≠ unattended**: even with `lode-drive` running on its own, you still show up at "review the PR" and "catch the breaker."
+Building from scratch takes the leanest flow; only when you're changing existing code or working in a team do the heavier guardrails kick in. **Autonomous ≠ unattended**: even with `lode-auto` running on its own, you still show up at "review the PR" and "catch the breaker."
 
 ---
 
@@ -160,4 +160,4 @@ Building from scratch takes the leanest flow; only when you're changing existing
 | Deterministic rules → gate | **Hooks** (plugin `hooks/hooks.json` / project `.claude/settings.json`) | `hooks/` |
 | Self-evolution (signals→proposals→rule base) | `CLAUDE.md` rule base + `lode-evolve` | `CLAUDE.md` + `skills/lode-evolve` |
 | Doc-driven | runtime artifacts | `.lode/` (`system-map → product-spec → design-brief → dev-plan → code → changelog`) |
-| Go = goal+standards+acceptance+constraints+execution | structured Go instruction | `skills/lode-go` |
+| order = goal+standards+acceptance+constraints+execution | structured order instruction | `skills/lode-order` |

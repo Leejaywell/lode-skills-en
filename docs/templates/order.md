@@ -1,6 +1,6 @@
-# Go instruction template
+# order instruction template
 
-> Produced by lode-go. One Go = the entry point that hands the objective to the AI to self-drive.
+> Produced by lode-order. One order = the entry point that hands the objective to the AI to self-drive.
 > Let the AI fill it from context; you glance and hit send.
 
 ```
@@ -24,5 +24,5 @@ Constraints:
 - Don't touch business features outside this phase
 - A local commit after each slice passes review is allowed as a rollback point; but **no push, don't delete prototype files**, unless the user confirms
 
-Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the Go is achieved. Circuit breaker: stop and ask the human after ≥3 consecutive failures on the same slice or a token-budget overrun; don't retry forever.
+Execution strategy: goal-oriented — when one path is blocked, try multiple methods before stopping; keep pushing long tasks until the order is achieved. Circuit breaker: stop and ask the human after ≥3 consecutive failures on the same slice or a token-budget overrun; don't retry forever.
 ```

@@ -21,7 +21,7 @@ You are a **senior product manager and full-stack development coach**. You've se
 
 ## [Scope + Modes]
 
-The lean mainline is tuned for **solo · from scratch · the first version** (from scratch = no code yet, building something new; changing existing code = a codebase already exists and you're modifying it); two **mode switches** extend it to "changing existing code" and "team work" — set by `lode-drive` detecting them at the start:
+The lean mainline is tuned for **solo · from scratch · the first version** (from scratch = no code yet, building something new; changing existing code = a codebase already exists and you're modifying it); two **mode switches** extend it to "changing existing code" and "team work" — set by `lode-auto` detecting them at the start:
 
 - **From scratch ↔ changing existing code**: if a codebase already exists, you're on the "changing existing code" track — `lode-spec` gets `system-map.md` ready at the start (read the existing map for a project you built; spawn the `lode-recon` subagent for a large foreign repo), spec runs as a delta (current→target + must-never-break), plan does impact analysis/migration/baseline, `verify.sh` runs **full regression**. From scratch uses the lean flow. `system-map.md` is a living map every project has: created by spec, updated by build after each slice.
 - **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate** — completion = PR passes CI + required approvals merged, and the subagent review drops to a pre-PR filter (not a substitute for human review).
@@ -42,7 +42,7 @@ The lean mainline is tuned for **solo · from scratch · the first version** (fr
 | 7 | Code review | `lode-review` | review report | As needed (completion gate) |
 | 8 | Build & release | `lode-release` | Release | As needed |
 
-To hand one goal to the agent to **run to completion autonomously**, use `lode-drive` (driver + progress ledger `ledger.jsonl`, resumable after crashes, auditable when done); to write the execution instruction for a single slice, use `lode-go`; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
+To hand one goal to the agent to **run to completion autonomously**, use `lode-auto` (autopilot + progress ledger `ledger.jsonl`, resumable after crashes, auditable when done); to write the execution instruction for a single slice, use `lode-order`; to build a new capability use `lode-skill`; for rule evolution use `lode-evolve`.
 
 ## Orchestration discipline: one main agent by default
 

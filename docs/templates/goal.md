@@ -1,7 +1,7 @@
 # GOAL — <goal name>
 
-> Produced by lode-drive. Lands at `.lode/<project>/goal.md`
-> This is the overall goal for autonomous driving (vs go.md: a Go is the execution instruction for a single slice; GOAL is the finish line of the whole loop).
+> Produced by lode-auto. Lands at `.lode/<project>/goal.md`
+> This is the overall goal for the autopilot run (vs order.md: an order is the execution instruction for a single slice; GOAL is the finish line of the whole loop).
 
 ## Goal
 One line: what must be achieved.

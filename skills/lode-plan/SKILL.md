@@ -44,4 +44,4 @@ Reading `system-map.md` + the spec's delta, add to each change-slice:
 - Get the user's sign-off on the plan before entering `lode-build`.
 
 ## → Next
-Plan set → build the first slice: `/lode-build` to run the plan, or `/lode-go` for one slice.
+Plan set → build the first slice: `/lode-build` to run the plan, or `/lode-order` for one slice.

@@ -32,7 +32,7 @@ On entering a project, **automatically** put the two things Lodestar's loop need
 | **Code exists + this project built it** (has `.lode` history / last changelog) | Current state is known — read the existing `system-map.md` and refresh lightly, **no re-scan** |
 | **Code exists + foreign/legacy** (no `.lode` history) | Must read code to build the map: **small repo** → read it yourself; **large/unfamiliar** → **spawn the `lode-recon` subagent** (see `agents/lode-recon.md`) — a clean brain reads it and brings back only `system-map.md`, so a flood of code doesn't pollute this session's interrogation context |
 
-> The user only ever types one `/lode-spec`: how the map gets there is decided here. **A project isn't permanently "new" or "old"** — once the first goal ships and code exists, the next goal naturally lands in the "code exists" row; that slide is automatic, consistent with `/lode-drive`'s detection.
+> The user only ever types one `/lode-spec`: how the map gets there is decided here. **A project isn't permanently "new" or "old"** — once the first goal ships and code exists, the next goal naturally lands in the "code exists" row; that slide is automatic, consistent with `/lode-auto`'s detection.
 
 ## How to ask (thin on steps, thick on standards)
 

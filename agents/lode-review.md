@@ -18,7 +18,7 @@ The two deterministic steps (build/test) are backstopped by the Stop gate's `ver
 
 1. **Build verification** — run `.lode/<project>/verify.sh` (or the project build command), confirm exit code 0, zero errors.
 2. **Test completeness (spec-bound)** — every "acceptance scenario" of this slice has a corresponding test, and the tests test the requirement not the implementation ("tests exist and are green" is not a pass); unit + e2e + UI-click complete and all green; **for web projects also check** accessibility (semantics/contrast/reduced-motion), responsive breakpoints, and key-page performance baselines (align to ECC web rules).
-3. **Code Review** — code quality, alignment with the Go and product-spec, and check against every rule in `CLAUDE.md`.
+3. **Code Review** — code quality, alignment with the order and product-spec, and check against every rule in `CLAUDE.md`.
 4. **Functional test** — **run each of this slice's acceptance scenarios**, confirming it's actually done, not a vague "it runs."
 
 **Changing existing code / team / safety-critical — also check:**
