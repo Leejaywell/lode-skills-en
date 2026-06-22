@@ -36,7 +36,8 @@ Each stage produces a doc under `.lode/<project>/`, which feeds the next stage �
 
 ## The 13 skills (six mainline + seven extensions)
 
-> Command = skill name (in Claude Code the slash command is the skill name; the model also auto-triggers by description).
+> **You don't need to memorize this table** — day to day you only type `/lode-spec` or `/lode-auto`; the rest the framework calls / chains automatically when needed. The table is a reference for what each does.
+> Command = skill name (the slash command is the skill name; the model also auto-triggers by description).
 
 Mainline (`①→⑥`):
 
@@ -67,66 +68,48 @@ Extensions (as needed):
 
 ## Install
 
-> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — install once, then just `/lode-spec` in any project; everything else is automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available — now also one line, with the gate auto-wired.
+Prereq: [Claude Code](https://claude.com/claude-code).
 
-### Method 1: plugin install (recommended)
-
+**Plugin (recommended)** — two lines in Claude Code:
 ```bash
 /plugin marketplace add Leejaywell/lode-skills-en
 /plugin install lodestar@lodestar
 ```
-> Update: `/plugin marketplace update`. Uninstall: `/plugin uninstall lodestar@lodestar`.
+Then just use it. Rules, the gate, and `verify.sh` are all auto-provisioned by the flow — **you configure nothing**.
 
-**After install just use it — you never decide when any script gets installed:**
-
-- Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-order`… (the model also auto-triggers by description); the `lode-review`, `lode-evolve`, and `lode-recon` subagents come along too.
-- **The gate is always-on via the plugin** — no manual merge, nothing to "enable"; it exit-passes when there's no `.lode/` workspace, so leaving it on globally has no side effect.
-- **Per-project files are provisioned by the flow at the right moment**: `CLAUDE.md` (the rules) is dropped by `lode-spec` the moment you enter a project; `verify.sh` is written by `lode-build` with real commands when development starts. **You just type `/lode-spec`.** (To pre-scaffold by hand: the optional `/lodestar:lode-init` — rarely needed.)
-
-### Method 2: script install (fallback: environments without the plugin system)
-
-No clone needed — **one line, as effortless as Method 1**:
+**Script (when the plugin system isn't available)** — one line, same result, just bare `/lode-spec` (no `/lodestar:` prefix):
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/install.sh | bash
 ```
-> Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target; `LODE_NO_HOOKS=1` skips auto-wiring the gate.
 
-**After install, just like Method 1 — in any project type `/lode-spec`, with nothing to configure:**
+**Uninstall**: plugin `/plugin uninstall lodestar@lodestar`; script `bash ~/.claude/lode-uninstall.sh`. Your project's `.lode/` artifacts are kept by default.
 
-- Skills/subagents install into `~/.claude/`; source assets (`CLAUDE.md` + templates) go to `~/.claude/lodestar/` for auto-provisioning.
-- **The gate is auto-wired into `~/.claude/settings.json`** (active everywhere, idempotent, original backed up to `settings.json.bak`) — no manual merge. It exit-passes when there's no `.lode/` workspace, so global activation has no side effect.
-- `CLAUDE.md`/`verify.sh` are auto-provisioned by the flow.
-- **The only difference from Method 1**: commands are the **bare** `/lode-spec` (no `/lodestar:` prefix).
-
-### Uninstalling
-
-- **Plugin install**: `/plugin uninstall lodestar@lodestar`, then `/plugin marketplace remove lodestar`.
-- **Script install**: `bash ~/.claude/lode-uninstall.sh` (left there by the installer; works offline — or remote `curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/uninstall.sh | bash`). It removes Lodestar's skills/subagents/gate scripts/source assets and **un-wires the gate from `~/.claude/settings.json`** — only our two entries; your other hooks stay, original backed up to `.bak`.
-- By default your per-project `.lode/`, project `CLAUDE.md`, and `verify.sh` are **left untouched** (they're your artifacts). To clear the docs too: run `bash ~/.claude/lode-uninstall.sh --purge-project` in that project (deletes **this project's** `.lode/`, prompts first when interactive; the project-root `CLAUDE.md` is still left alone), or just `rm -rf .lode`.
+> Details (how the gate is wired, where files go, `LODE_NO_HOOKS` / `--purge-project`) are printed by `install.sh` when it runs.
 
 ---
 
 ## How to use
 
-### A. Autonomous (recommended) — one goal, the agent runs it to the end
+**Day to day you only type 1 command** — the rest the framework calls / chains when needed, nothing to memorize:
 
-```
-/lode-auto Finish <goal>
-```
-`lode-auto` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→slices, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the **breaker** when stuck (stops and hands back to you on repeated failure / budget overrun — no infinite burn). You show up only to **review the PR** and **handle the breaker**.
+| What you want | Type this |
+|---|---|
+| Give a goal, **fully autonomous** (recommended) | `/lode-auto Finish <goal>` |
+| Drive it yourself, starting from requirements | `/lode-spec` |
+| Add a feature / change old code | still `/lode-spec` (it maps the current state at the start) |
+| Fix a bug | `/lode-fix` |
 
-### B. Manual, step by step — when you want to drive each stage
+### Fully autonomous: `/lode-auto`
+Give one goal; it decides from-scratch/changing-existing-code and solo/team, splits milestones→slices, runs each through the four-step audit + regression, keeps a progress ledger (resumable after a crash), re-plans on drift and trips the breaker when stuck (stops and hands back to you on repeated failure / budget overrun). You show up only to **review the PR** and **handle the breaker**.
 
-From scratch minimal loop:
+### Manual, step by step — when you want to drive each stage
 ```
 /lode-spec    # pin down requirements → product-spec.md
 /lode-plan    # split into slices (each slice's acceptance scenarios first) → dev-plan.md
-/lode-order      # generate one slice's order, paste & run it → four-step audit loop
+/lode-order   # write one slice's order, hand it to the AI → four-step audit loop
 ```
-
-- **Changing existing code**: still just `/lode-spec` — at the start it gets `system-map.md` ready automatically (reads the existing map for a project you built; spawns the `lode-recon` subagent to read a large foreign repo), then runs as a delta (current→target + must-never-break). Nothing else to type first.
-- Full chain: insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release` (team: PR/CI).
-- Three granularities for one slice: the main agent runs `lode-build` through the plan / write an order per slice (most common) / one order for the whole thing (most efficient once fluent).
+- Want mockups? insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release`.
+- **The rest (recon / review / init…) the framework calls when it's time — you don't invoke them by hand.**
 
 ---
 
