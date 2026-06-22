@@ -46,6 +46,22 @@ Four techniques (the key to questioning efficiently):
 3. **Question triage**: only ask decisions "only the user knows the answer to"; implementation details, or things the user can customize inside the skill, you decide yourself or defer — **don't bother the user with these**.
 4. **Boundary probe**: proactively raise "will this balloon without limit" boundary questions so the user draws the line early (e.g. "how much manual capability is enough?").
 
+## UI / layout: align with a wireframe, don't make the user guess from words
+
+For interface structure, layout, or screen-to-screen relationships that are **hard to convey in words**, ask first — **would the user grasp this better by *seeing* it than reading it?** If yes, go visual, lightest first:
+
+- **Conceptual questions** (what style, what this feature does) → stay text multiple-choice; no visuals.
+- **Structure/position questions** (how many columns, what goes where, hierarchy) → **draw a quick ASCII wireframe** to align — zero files, fastest:
+  ```
+  ┌─sidebar─┬───preview────┐
+  │  list   │ big image +   │   This "list-left + preview-right", or a top/bottom split?
+  └─────────┴── timeline ───┘
+  ```
+- **Needs a comparison / some realism to settle** → write a low-fi `.lode/<project>/wireframe.html` (static, double-click to open) and give `open .lode/<project>/wireframe.html`; the user looks and replies in the terminal.
+- **Needs truly high-fidelity / a clickable prototype** → that's the signal; don't force it in spec: go to `/lode-brief` → `/lode-design` (that's where openable, finished prototypes come from).
+
+> Before drawing for the first time, ask once on its own — "want me to sketch a wireframe?" — for consent, then decide **per point** (not every UI topic needs a picture). Record the agreed layout intent in `product-spec.md`'s "layout intent" (a wireframe can be attached). **Spec only disambiguates; it doesn't produce finished design.**
+
 ## Surface assumptions (mandatory before acting)
 
 Before questioning, lay out your key assumptions about the **core decisions** all at once for the user to correct at a glance — wrong assumptions compound exponentially through the later self-driving loop:
@@ -82,6 +98,7 @@ Produce `.lode/<project>/product-spec.md` that satisfies:
 - Vague spots must be drilled into; nail a few key points per round; don't assume core decisions for the user.
 - **No map, no questioning** — if the code you'll change already exists but there's no `system-map.md`, get the map ready first (small repo: read it yourself; large: spawn the `lode-recon` subagent) before writing the delta; never fabricate the current state.
 - Don't write the implementation plan, don't pick the tech stack (that's Planner/Builder's job).
+- When UI/layout is hard to put in words, align with a quick wireframe — **don't produce finished design in spec** (that belongs to brief/design).
 - Describe **capabilities**, don't shred the requirement into a pile of fragmented little tools.
 - When the user corrects your judgment (e.g. you advised conservative and got overruled), capture it as a Signal into `signals.jsonl` for self-evolution.
 - Confirm with the user before moving to the next step.
