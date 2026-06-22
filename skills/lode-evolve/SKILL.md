@@ -13,7 +13,7 @@ Extension skill. The mechanism by which the system gets smarter: distill **real 
 You correct it / chew it out  →  record it as a Signal, append to .lode/<project>/signals.jsonl (signal queue)
    →  next time a Session opens, during the light self-check (docs/code/signal queue), fan out an Evolution Runner subagent to digest
    →  digest = analyze signals, abstract into rule proposals, write into proposals.md, and decide each: replace existing / supplement / plain-new
-   →  lay each out and ask you (add/change/delete)  →  on your confirmation, land it into the relevant Skill's question-bank.md or the CLAUDE.md rule base
+   →  lay each out and ask you (add/change/delete)  →  on your confirmation, land it into the relevant Skill's question-bank-*.md or the CLAUDE.md rule base
    →  clear the signals; the system returns to a fresh state
 ```
 
@@ -27,7 +27,7 @@ You correct it / chew it out  →  record it as a Signal, append to .lode/<proje
 
 - Abstract a Signal into a **concrete, executable** rule proposal, tag it with its source Signal, and decide replace/supplement/new.
 - Lay each out for the user to **confirm**; don't write to the base unilaterally.
-- On confirmation, write into the relevant `question-bank.md` (requirements/design rules) or the `<!-- RULES -->` section of `CLAUDE.md`.
+- On confirmation, write into the relevant `question-bank-*.md` (requirements/design rules) or the `<!-- RULES -->` section of `CLAUDE.md`.
 - Reverse-cleanup while you're at it: when you find a rule that never triggers, proactively suggest deleting it.
 
 ## Guardrails (red lines)

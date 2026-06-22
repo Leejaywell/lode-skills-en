@@ -22,7 +22,7 @@
 | Deterministic rules → gate | **Hooks** (`.claude/settings.json`) | `hooks/` |
 | Self-evolution (signals→proposals→rule base) | `CLAUDE.md` rule base + Evolution Runner | `CLAUDE.md` + `skills/lode-evolve` |
 | Skill writes only Usage/Done/Guardrails | Skill frontmatter + minimal body | each `SKILL.md` |
-| Doc-driven (Product-Spec→Brief→Plan→Code→Changelog) | in-repo artifacts | `.lode/` runtime artifacts |
+| Doc-driven (product-spec→Brief→Plan→Code→Changelog) | in-repo artifacts | `.lode/` runtime artifacts |
 | Go = goal+standards+acceptance+constraints+execution strategy | structured Go instruction | `skills/lode-go` |
 
 > Install layout: skills go in `~/.claude/skills/` (or project `.claude/skills/`), subagents in `.claude/agents/`, hooks in `.claude/settings.json`, top-level rules in `CLAUDE.md`.
@@ -37,12 +37,12 @@ Mainline (`⓪→⑥`):
 
 | # | Command (= skill name) | What it does | Output |
 |---|---|---|---|
-| 0 | `/lode-recon` | **(brownfield)** Map existing architecture/conventions/commands/baseline | `System-Map.md` |
-| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (brownfield → delta) | `Product-Spec.md` |
-| 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `Design-Brief.md` |
+| 0 | `/lode-recon` | **(brownfield)** Map existing architecture/conventions/commands/baseline | `system-map.md` |
+| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (brownfield → delta) | `product-spec.md` |
+| 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | mockups/prototype |
-| 4 | `/lode-plan` | Split into Faces (brownfield: impact analysis/migration/baseline) | `DEV-PLAN.md` |
-| 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `CHANGELOG.md` |
+| 4 | `/lode-plan` | Split into Faces (brownfield: impact analysis/migration/baseline) | `dev-plan.md` |
+| 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `changelog.md` |
 | 6 | `/lode-release` | Privacy audit + package & release (team: PR/CI) | Release |
 
 Extensions (as needed):
@@ -62,7 +62,7 @@ Extensions (as needed):
 
 The lean mainline is tuned for **solo · greenfield · 0→1**; two **mode switches** extend it to old projects and teams (`lode-drive` sets them at the start):
 - **Greenfield ↔ brownfield**: old projects first `/lode-recon` for a system map, spec runs as a delta, plan does impact analysis/migration/baseline, verify runs **full regression**.
-- **Solo ↔ team**: solo uses the local `REVIEW_PASSED` gate; team/long-lived switches to the **PR/CI gate**, with the subagent review dropping to a pre-PR filter (not a substitute for human review).
+- **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate**, with the subagent review dropping to a pre-PR filter (not a substitute for human review).
 - **Safety/compliance**: plus mandatory security review + requirement-code-test traceability.
 - Vision: **set one goal → the agent runs it to completion → greenfield or brownfield**. Autonomous ≠ unattended — the human shows up only at "review the PR" and "handle the breaker." Greenfield stays light; old projects/teams get the heavy guardrails.
 
@@ -97,11 +97,11 @@ With that: before wrapping up a workspace where dev has started, the gate auto-r
 ### B. Manual, step by step — when you want to drive each stage
 Greenfield minimal loop:
 ```
-/lode-spec    # interrogate requirements → Product-Spec.md
-/lode-plan    # split into Faces (each Face's acceptance scenarios defined first) → DEV-PLAN.md
+/lode-spec    # interrogate requirements → product-spec.md
+/lode-plan    # split into Faces (each Face's acceptance scenarios defined first) → dev-plan.md
 /lode-go      # generate the Go for a single Face, send it to execute → four-step audit loop
 ```
-- **Old project**: first `/lode-recon` for a `System-Map.md`; spec then runs as a delta (current→target + must-never-break).
+- **Old project**: first `/lode-recon` for a `system-map.md`; spec then runs as a delta (current→target + must-never-break).
 - Full chain: before plan you can insert `/lode-brief` (+ optional `/lode-design`); wrap up with `/lode-release` (team: PR/CI).
 - Three granularities for executing Faces: main agent runs the whole plan with `lode-build` / one Go per Face (most common) / one Go for all Faces (most efficient once practiced).
 
@@ -111,7 +111,7 @@ Greenfield minimal loop:
 
 Merge `hooks/` (`lode-gate.sh` + `lode-signal.sh` + the hooks block in `settings.json`) into the project's `.claude/settings.json`:
 
-- **Stop gate `lode-gate.sh`**: before wrapping up a workspace where dev has started, ① actually run `.lode/<project>/verify.sh` (build+test, verdict by exit code) ② check the non-empty `REVIEW_PASSED` marker no older than CHANGELOG. **Build/test are actually run by a program, not trusting only the model-written flag.**
+- **Stop gate `lode-gate.sh`**: before wrapping up a workspace where dev has started, ① actually run `.lode/<project>/verify.sh` (build+test, verdict by exit code) ② check the non-empty `review-passed` marker no older than CHANGELOG. **Build/test are actually run by a program, not trusting only the model-written flag.**
 - **UserPromptSubmit hook `lode-signal.sh`**: on a correction/dissatisfaction keyword, auto-append the signal to `signals.jsonl` to feed self-evolution.
 - Before the first Face, lay down a project-level `verify.sh` per `docs/templates/verify.sh` (wrapping this project's build+test commands).
 

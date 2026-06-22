@@ -1,6 +1,6 @@
-# System-Map — <project name>
+# system-map — <project name>
 
-> Produced by lode-recon (brownfield projects). Lands at `.lode/<project>/System-Map.md`
+> Produced by lode-recon (brownfield projects). Lands at `.lode/<project>/system-map.md`
 > Purpose: let spec know the current state, let plan do impact analysis, let build's changes "look like the existing code."
 
 ## Architecture map

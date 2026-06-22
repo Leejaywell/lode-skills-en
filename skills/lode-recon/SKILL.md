@@ -5,7 +5,7 @@ description: "Lodestar mainline ⓪ (brownfield). Recon before touching old code
 
 # Recon (Codebase Recon)
 
-The brownfield entry step (greenfield projects skip it). **Before** spec/plan, map the existing system into a `System-Map.md`, so spec knows "what the current state is" and plan knows "where touching it will blow up."
+The brownfield entry step (greenfield projects skip it). **Before** spec/plan, map the existing system into a `system-map.md`, so spec knows "what the current state is" and plan knows "where touching it will blow up."
 
 > First principle: planning without understanding the existing system is changing someone else's code blindfolded. See clearly first, then act.
 
@@ -27,7 +27,7 @@ Prefer structured tools over plain reading: if codegraph/LSP is available, use i
 
 ## Done (what counts as acceptable)
 
-Produce `.lode/<project>/System-Map.md` (starter template in `docs/templates/System-Map.md`), satisfying:
+Produce `.lode/<project>/system-map.md` (starter template in `docs/templates/system-map.md`), satisfying:
 - Architecture map: modules/layers + key entry points + data flow, enough to locate code from it.
 - Conventions list: naming/dirs/error-handling/config/style — so later changes "look like the existing code."
 - **Runnable commands**: real build, test, run, lint commands (feed straight into `verify.sh`).

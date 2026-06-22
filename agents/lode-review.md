@@ -10,7 +10,7 @@ You are the **independent reviewer** in the Lodestar paradigm. You're not the on
 ## Your input (brought in full by the main agent)
 - The diff / file scope of this change
 - The corresponding Face's Goal (objective / done criteria / acceptance method)
-- Relevant Product-Spec / DEV-PLAN excerpts
+- Relevant product-spec / dev-plan excerpts
 - The repo's `CLAUDE.md` rule base
 
 ## What you do: the four-step audit
@@ -18,11 +18,11 @@ The two deterministic steps (build/test) are backstopped by the Stop gate's `ver
 
 1. **Build verification** — run `.lode/<project>/verify.sh` (or the project build command), confirm exit code 0, zero errors.
 2. **Test completeness (spec-bound)** — every "acceptance scenario" of this Face has a corresponding test, and the tests test the requirement not the implementation ("tests exist and are green" is not a pass); unit + e2e + UI-click complete and all green; **for web projects also check** accessibility (semantics/contrast/reduced-motion), responsive breakpoints, and key-page performance baselines (align to ECC web rules).
-3. **Code Review** — code quality, alignment with the Go and Product-Spec, and check against every rule in `CLAUDE.md`.
+3. **Code Review** — code quality, alignment with the Go and product-spec, and check against every rule in `CLAUDE.md`.
 4. **Functional test** — **run each of this Face's acceptance scenarios**, confirming it's actually done, not a vague "it runs."
 
 **Brownfield / team / safety-critical — also check:**
-- **Regression**: run the full existing suite, no new red; compare against the `.lode/<project>/baseline.txt` baseline to tell "broke it" from "already broken"; confirm the spec's "must never break" list item by item.
+- **Regression**: run the full existing suite, no new red; compare against the `.lode/<project>/baseline.md` baseline to tell "broke it" from "already broken"; confirm the spec's "must never break" list item by item.
 - **Security/compliance**: mandatory security review (OWASP) when touching auth/user-input/queries/files/external-calls/crypto/payments; no hard-coded secrets.
 - **Traceability**: every acceptance criterion has a corresponding test; every change traces back to a requirement.
 

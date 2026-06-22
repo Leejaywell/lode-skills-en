@@ -1,15 +1,15 @@
 ---
 name: lode-build
-description: "Lodestar mainline ⑤ — project development. Build Face by Face per the DEV-PLAN, each Face running the four-step audit loop until it passes. Use when the dev plan is ready and it's time to write the implementation. Trigger: /lode-build"
+description: "Lodestar mainline ⑤ — project development. Build Face by Face per the dev-plan, each Face running the four-step audit loop until it passes. Use when the dev plan is ready and it's time to write the implementation. Trigger: /lode-build"
 ---
 
 # Dev Builder (Project Development)
 
-Mainline step ⑤. Build **Face by Face** per `DEV-PLAN.md`. The point is the **loop**: once a Face is written, you must fan out an independent subagent to review it; it's done only when the review passes, and if it doesn't, fix until it does.
+Mainline step ⑤. Build **Face by Face** per `dev-plan.md`. The point is the **loop**: once a Face is written, you must fan out an independent subagent to review it; it's done only when the review passes, and if it doesn't, fix until it does.
 
 ## Usage (when to use)
 
-- `DEV-PLAN.md` is confirmed; start implementing.
+- `dev-plan.md` is confirmed; start implementing.
 - A Face's code needs writing / filling in / tuning to acceptance.
 - Usually paired with a **Go** (see `lode-go`) to enter the self-driving loop.
 
@@ -27,15 +27,15 @@ The first two steps are **deterministic** — handed to the hook to actually run
 3. **Code Review (judgment · subagent)** — fan out a clean-head subagent to review (see `lode-review`), covering code quality, alignment with the Spec, and for web projects a11y/responsive/key-page performance.
 4. **Functional test (judgment)** — run through each of the Face's **acceptance scenarios** for real (not a vague "it runs").
 
-All four pass → local commit as a rollback point (**no push**) → write the review conclusion into `.lode/<project>/REVIEW_PASSED` (note the reviewed Face/commit) → write the audit report → only then is this Face Done.
+All four pass → local commit as a rollback point (**no push**) → write the review conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit) → write the audit report → only then is this Face Done.
 
 ## Done (what counts as acceptable)
 
 For the current Face:
 - Meets the done criteria written in the plan.
-- Passes the four-step audit, and appends the change to `.lode/<project>/CHANGELOG.md` (what/why/blast-radius).
+- Passes the four-step audit, and appends the change to `.lode/<project>/changelog.md` (what/why/blast-radius).
 - After each Face passes review, make a **local commit** (no push) as a rollback point — if a long self-driving loop crashes, you can fall back to the last runnable Face.
-- When design or requirements change, write back to `Design-Brief.md` / `Product-Spec.md` / `DEV-PLAN.md` to keep docs in sync.
+- When design or requirements change, write back to `design-brief.md` / `product-spec.md` / `dev-plan.md` to keep docs in sync.
 
 ## Guardrails (red lines)
 

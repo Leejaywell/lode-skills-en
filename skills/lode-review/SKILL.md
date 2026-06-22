@@ -15,7 +15,7 @@ Extension skill · completion gate. This is the paradigm's **canonical case for 
 
 ## How to run it (orchestration)
 
-The main agent **fans out a clean-head subagent**: use the `Agent` tool to invoke the `lode-review` subagent (see `agents/lode-review.md`), carrying **the full relevant context** (the change diff, that Face's Go, Product-Spec/DEV-PLAN excerpts). The subagent returns only a conclusion; **the main agent merges and decides**.
+The main agent **fans out a clean-head subagent**: use the `Agent` tool to invoke the `lode-review` subagent (see `agents/lode-review.md`), carrying **the full relevant context** (the change diff, that Face's Go, product-spec/dev-plan excerpts). The subagent returns only a conclusion; **the main agent merges and decides**.
 
 ## Done (what counts as acceptable)
 
@@ -24,18 +24,18 @@ Return a structured review report covering the **four-step audit**: build verifi
 - **Test completeness is checked spec-bound**: every "acceptance scenario" of this Face has a corresponding test, and the tests test the requirement, not the implementation; the functional test **runs each acceptance scenario** — "tests exist and are green" is not a pass.
 - Each issue graded by severity: CRITICAL / HIGH / MEDIUM / LOW.
 - A clear verdict: **pass / fail** (any CRITICAL = fail).
-- On pass, the **main agent** writes the conclusion into `.lode/<project>/REVIEW_PASSED` (note the reviewed Face/commit); the gate lets it through on that basis.
+- On pass, the **main agent** writes the conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit); the gate lets it through on that basis.
 - On fail, each blocking item states "why + how to fix"; the main agent fixes and runs another round until Pass.
 
 **Brownfield / team / safety-critical extra review:**
 - **Regression**: the full existing suite has no new red; compared against the pre-change baseline to tell "broke it" from "already broken"; the spec's "must never break" list confirmed item by item.
 - **Security/compliance**: when touching auth, user input, queries, files, external calls, crypto, or payments, run a mandatory security review (per OWASP); no hard-coded secrets.
 - **Traceability**: requirement → code → test line up — every acceptance criterion has a corresponding test, every change traces back to a requirement (required for regulated systems).
-- **Team mode**: this review is a **pre-PR filter**, not a substitute for human review; completion = PR passes CI + required approvals merged, and `REVIEW_PASSED` is only for local/solo mode.
+- **Team mode**: this review is a **pre-PR filter**, not a substitute for human review; completion = PR passes CI + required approvals merged, and `review-passed` is only for local/solo mode.
 
 ## Guardrails (red lines)
 
 - The review subagent **reviews only, doesn't change code**; fixes go back to `lode-build` / `lode-fix`.
 - Review not passed → wrap-up not allowed (enforced by the Stop hook gate, not by good intentions).
-- Review scope aligns to the Go and Product-Spec; don't expand the requirement under cover of review.
+- Review scope aligns to the Go and product-spec; don't expand the requirement under cover of review.
 - Decision authority stays with the main agent / human; the subagent doesn't decide the release for you.

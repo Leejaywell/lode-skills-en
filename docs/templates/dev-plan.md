@@ -1,10 +1,10 @@
 # DEV PLAN — <project name>
 
-> Produced by lode-plan. Lands at `.lode/<project>/DEV-PLAN.md`
+> Produced by lode-plan. Lands at `.lode/<project>/dev-plan.md`
 > Face = a vertical acceptance-testable slice: once done it compiles, runs, and can be accepted on its own.
 
 ## Mode
-- Greenfield / brownfield: <brownfield needs a System-Map.md first>
+- Greenfield / brownfield: <brownfield needs a system-map.md first>
 - Solo / team: <team uses the PR/CI gate>
 
 ## Tech Selection & Key Decisions

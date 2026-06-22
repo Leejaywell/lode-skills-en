@@ -8,7 +8,7 @@
 # Brownfield: MUST run [the full existing suite + new tests], and compare against the pre-change baseline —
 #             to tell "what you broke" from "what was already broken."
 #             Save the baseline once before touching anything (in lode-recon):
-#             `bash verify.sh > .lode/<project>/baseline.txt 2>&1 || true`
+#             `bash verify.sh > .lode/<project>/baseline.md 2>&1 || true`
 #
 # Replace the commands below for your stack:
 set -euo pipefail

@@ -1,6 +1,6 @@
 ---
 name: lode-brief
-description: "Lodestar mainline ② — design-brief interview that translates the user's \"feel\" into concrete design decisions. Use when the Product-Spec is ready and you need to settle the visual/interaction direction — tone, palette, typography, component conventions. Multiple-choice interview + anti-reference. Trigger: /lode-brief"
+description: "Lodestar mainline ② — design-brief interview that translates the user's \"feel\" into concrete design decisions. Use when the product-spec is ready and you need to settle the visual/interaction direction — tone, palette, typography, component conventions. Multiple-choice interview + anti-reference. Trigger: /lode-brief"
 ---
 
 # Design Brief Builder
@@ -9,7 +9,7 @@ Mainline step ②. Like a designer interviewing a client: take the vague "feel/t
 
 ## Usage (when to use)
 
-- `Product-Spec.md` is confirmed; entering the design phase (this step is optional).
+- `product-spec.md` is confirmed; entering the design phase (this step is optional).
 - The user has expectations about the look but can only describe them with adjectives ("more premium," "clean," "techy").
 - Before building a high-fidelity mockup (`lode-design`) or writing frontend, settle the conventions first.
 
@@ -26,13 +26,13 @@ Lean on a question bank (starter template in this skill's `references/question-b
 
 ## Done (what counts as acceptable)
 
-Produce `.lode/<project>/Design-Brief.md` that satisfies:
+Produce `.lode/<project>/design-brief.md` that satisfies:
 - A **clear design direction** chosen (editorial/magazine, neo-brutalism, glassmorphism, Swiss…), not empty phrases like "clean minimal."
 - Both **reference and anti-reference** written out (what we want + what we absolutely don't).
 - Actionable design tokens: palette (incl. semantic colors), type pairing, spacing/radius/shadow rhythm.
 - Key states: hover / focus / active / disabled / empty / loading / error.
 - Accessibility and responsive baselines (contrast, reduced-motion, breakpoints).
-- Information architecture + page list (with page relationships); every decision traces back to the Product-Spec's users and scenarios.
+- Information architecture + page list (with page relationships); every decision traces back to the product-spec's users and scenarios.
 
 ## Guardrails (red lines)
 

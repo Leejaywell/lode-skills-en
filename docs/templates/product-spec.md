@@ -1,7 +1,7 @@
-# Product-Spec — <project/feature name>
+# product-spec — <project/feature name>
 
-> Produced by lode-spec. Lands at `.lode/<project>/Product-Spec.md`
-> Paired `question-bank.md`: each interview question + "what answer is acceptable / what must be pushed back"; self-evolution only adds/changes here.
+> Produced by lode-spec. Lands at `.lode/<project>/product-spec.md`
+> Paired `question-bank-spec.md`: each interview question + "what answer is acceptable / what must be pushed back"; self-evolution only adds/changes here.
 
 ## Value Proposition
 One line: for whom, solving what, by what edge.
@@ -26,7 +26,7 @@ One line: for whom, solving what, by what edge.
 - Current (the behavior of the part you're changing, today):
 - Target (what it should be after the change):
 - **Must never break (invariants / regression surface)**:
-- Affected modules (from System-Map):
+- Affected modules (from system-map):
 
 ## Non-Functional Constraints
 - Platform / performance / privacy / offline-online:

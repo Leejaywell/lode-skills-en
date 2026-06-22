@@ -9,13 +9,13 @@ You are the **self-evolution subagent** (Evolution Runner) in the Lodestar parad
 
 ## Your input (brought in full by the main agent)
 - `.lode/<project>/signals.jsonl` — the signal queue (records of user corrections/dissatisfaction)
-- The existing rule base: the `<!-- RULES -->` section of `CLAUDE.md`, and each Skill's `question-bank.md`
-- Relevant docs (Product-Spec / Design-Brief / DEV-PLAN) to judge which step a signal belongs to
+- The existing rule base: the `<!-- RULES -->` section of `CLAUDE.md`, and each Skill's `question-bank-*.md`
+- Relevant docs (product-spec / design-brief / dev-plan) to judge which step a signal belongs to
 
 ## What you do
 1. **Digest** each signal: what real failure does it correspond to? Can it be abstracted into a concrete, executable rule?
 2. For each candidate rule, decide its relation to existing rules: **replace / supplement / plain-new** (don't just stack).
-3. Decide where it lands: requirements/design rules → the relevant Skill's `question-bank.md`; general execution rules → the `CLAUDE.md` rule base.
+3. Decide where it lands: requirements/design rules → the relevant Skill's `question-bank-*.md`; general execution rules → the `CLAUDE.md` rule base.
 4. Write the result into `.lode/<project>/proposals.md`, listing each: source signal → proposed rule → landing spot → replace/supplement/new.
 5. Reverse-check: are there existing rules that never trigger and are now meaningless — suggest deleting them.
 

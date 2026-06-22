@@ -7,11 +7,11 @@
 #   ① Deterministic verification (hard): run .lode/<project>/verify.sh (project build+test script),
 #      verdict by exit code. — "build with zero errors / all tests pass" is the most deterministic
 #      judgment; the gate must actually run it, not stuff it into a model self-assessment.
-#   ② Review-passed marker (soft): REVIEW_PASSED exists, is newer than the latest dev (CHANGELOG).
+#   ② Review-passed marker (soft): review-passed exists, is newer than the latest dev (CHANGELOG).
 #      — prevents "changed but wrapped up without re-review." The marker must carry verifiable content
 #      (the reviewed Face/commit id), not an empty touch.
 #
-# Rule: only block a workspace where development has started (CHANGELOG.md exists).
+# Rule: only block a workspace where development has started (changelog.md exists).
 #       The spec/design/plan phases (no code yet) pass through.
 #
 # Exit codes: 0 allow; 2 block wrap-up and feed stderr back to the model to keep working.
@@ -24,8 +24,8 @@ LODE_DIR=$(ls -dt .lode/*/ 2>/dev/null | head -1 || true)
 # No lode workspace => not a Lodestar flow, allow
 [ -z "${LODE_DIR}" ] && exit 0
 
-CHANGELOG="${LODE_DIR}CHANGELOG.md"
-PASS_MARK="${LODE_DIR}REVIEW_PASSED"
+CHANGELOG="${LODE_DIR}changelog.md"
+PASS_MARK="${LODE_DIR}review-passed"
 VERIFY="${LODE_DIR}verify.sh"
 
 # Development hasn't started (no CHANGELOG) => early phase, don't block
@@ -54,7 +54,7 @@ if [ ! -f "${PASS_MARK}" ]; then
   exit 2
 fi
 
-# ② Marker must not be an empty file (prevents `touch REVIEW_PASSED` empty pass-through)
+# ② Marker must not be an empty file (prevents `touch review-passed` empty pass-through)
 if [ ! -s "${PASS_MARK}" ]; then
   echo "[Lodestar gate] Blocking wrap-up: ${PASS_MARK} is empty." >&2
   echo "The marker must state the reviewed Face/commit id (verifiable); an empty touch is not accepted." >&2

@@ -1,11 +1,11 @@
 ---
 name: lode-spec
-description: "Lodestar mainline ① — requirements gathering. Interrogate a fuzzy idea into a buildable Product-Spec. Use when the user is starting a new product/feature, gives only a one-line need or a vague idea, or needs requirements gathering. Blunt by default, no flattery, multiple-choice interrogation. Trigger: /lode-spec"
+description: "Lodestar mainline ① — requirements gathering. Interrogate a fuzzy idea into a buildable product-spec. Use when the user is starting a new product/feature, gives only a one-line need or a vague idea, or needs requirements gathering. Blunt by default, no flattery, multiple-choice interrogation. Trigger: /lode-spec"
 ---
 
 # Product Spec Builder (Requirements Gathering)
 
-Mainline step ①, and where the "blunt" persona is most concentrated. Through a structured interview, interrogate a fuzzy idea into a `Product-Spec.md` that can go straight to development.
+Mainline step ①, and where the "blunt" persona is most concentrated. Through a structured interview, interrogate a fuzzy idea into a `product-spec.md` that can go straight to development.
 
 ## Usage (when to use)
 
@@ -14,7 +14,7 @@ Mainline step ①, and where the "blunt" persona is most concentrated. Through a
 
 ## How to ask (thin on steps, thick on standards)
 
-Don't write a "ask this first, ask that second" script. What you write thick is a **question bank** (lands at `.lode/<project>/question-bank.md`; starter template in this skill's `references/question-bank-spec.md`): each question carries "what answer is acceptable / what answer must be pushed back." The model dynamically decides the next question from the user's answers; the question bank only yanks it back when it drifts. Delete the "how-to"; thicken the "what counts as good."
+Don't write a "ask this first, ask that second" script. What you write thick is a **question bank** (lands at `.lode/<project>/question-bank-spec.md`; starter template in this skill's `references/question-bank-spec.md`): each question carries "what answer is acceptable / what answer must be pushed back." The model dynamically decides the next question from the user's answers; the question bank only yanks it back when it drifts. Delete the "how-to"; thicken the "what counts as good."
 
 Four techniques (the key to interrogating efficiently):
 
@@ -38,15 +38,15 @@ I'm reading it with these assumptions; interrupt me now if any are wrong:
 
 ## Brownfield: use delta mode (when changing an old project)
 
-When the goal lands in an existing project, the spec isn't "what to build" but **what to change**. First read `lode-recon`'s `System-Map.md`, then write as a delta:
+When the goal lands in an existing project, the spec isn't "what to build" but **what to change**. First read `lode-recon`'s `system-map.md`, then write as a delta:
 - **Current**: what the behavior is now (for the part you're changing).
 - **Target**: what it should be after the change.
 - **Must never break (invariants / regression surface)**: which existing behaviors, data, and interfaces must stay unchanged — this column directly decides the characterization tests build must pin and the regression scope the gate must run.
-- **Affected modules**: mark from the System-Map what will be rippled (for plan's impact analysis).
+- **Affected modules**: mark from the system-map what will be rippled (for plan's impact analysis).
 
 ## Done (what counts as acceptable)
 
-Produce `.lode/<project>/Product-Spec.md` that satisfies:
+Produce `.lode/<project>/product-spec.md` that satisfies:
 - Value proposition + target user + core scenarios stated clearly.
 - Functional requirements layered (what this version does / what it defers), each acceptance-testable.
 - Explicit **scope boundary** (what it won't do) to prevent unbounded growth.

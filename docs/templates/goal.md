@@ -1,13 +1,13 @@
 # GOAL — <goal name>
 
-> Produced by lode-drive. Lands at `.lode/<goal>/GOAL.md`
-> This is the overall goal for autonomous driving (vs GO.md: a Go is the execution instruction for a single Face; GOAL is the finish line of the whole loop).
+> Produced by lode-drive. Lands at `.lode/<project>/goal.md`
+> This is the overall goal for autonomous driving (vs go.md: a Go is the execution instruction for a single Face; GOAL is the finish line of the whole loop).
 
 ## Goal
 One line: what must be achieved.
 
 ## Mode
-- Greenfield / brownfield: <brownfield needs lode-recon → System-Map.md first>
+- Greenfield / brownfield: <brownfield needs lode-recon → system-map.md first>
 - Solo / team: <team uses the PR/CI gate>
 
 ## Done criteria (acceptance-testable, item by item)

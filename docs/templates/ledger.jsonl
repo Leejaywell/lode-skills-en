@@ -1,4 +1,4 @@
-{"//": "Maintained by lode-drive. Lands at .lode/<goal>/LEDGER.jsonl. Append-only, one event per line, tracking each Face's progress so the goal survives crashes and is auditable. A status is written passed only after the audit/regression/PR actually pass."}
+{"//": "Maintained by lode-drive. Lands at .lode/<project>/ledger.jsonl. Append-only, one event per line, tracking each Face's progress so the goal survives crashes and is auditable. A status is written passed only after the audit/regression/PR actually pass."}
 {"ts": "<ISO8601>", "face": "Face 1", "status": "doing", "note": "thinnest runnable skeleton"}
 {"ts": "<ISO8601>", "face": "Face 1", "status": "passed", "commit": "<hash>", "pr": null, "verify": "build+test green, full regression no new red"}
 {"ts": "<ISO8601>", "face": "Face 2", "status": "blocked", "note": "depends on Face 3's interface not yet defined; or 3 consecutive failures tripped the breaker, stopped to ask the human"}

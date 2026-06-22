@@ -1,26 +1,26 @@
 ---
 name: lode-plan
-description: "Lodestar mainline ④ — development plan. Break the Product-Spec/design into a set of Faces — each independently acceptance-testable and runnable. Use when you need to turn requirements into a dev plan, slice the work into tasks, and set each slice's acceptance criteria. Trigger: /lode-plan"
+description: "Lodestar mainline ④ — development plan. Break the product-spec/design into a set of Faces — each independently acceptance-testable and runnable. Use when you need to turn requirements into a dev plan, slice the work into tasks, and set each slice's acceptance criteria. Trigger: /lode-plan"
 ---
 
 # Dev Planner (Development Plan)
 
-Mainline step ④. Break `Product-Spec.md` (and design artifacts) into a set of **Faces**.
+Mainline step ④. Break `product-spec.md` (and design artifacts) into a set of **Faces**.
 
 > **Face** = a **vertical, acceptance-testable slice**: once done it compiles, runs, and can be accepted on its own — not a horizontal "write all the models first, then all the UI."
 
 ## Usage (when to use)
 
-- `Product-Spec.md` (optionally `Design-Brief.md` / `mockups/`) is confirmed, ready to start.
+- `product-spec.md` (optionally `design-brief.md` / `mockups/`) is confirmed, ready to start.
 - You need to turn "what to build" into "in what order, in how many slices."
 - Before entering `lode-build`, there must be a plan.
 
 ## Done (what counts as acceptable)
 
-Produce `.lode/<project>/DEV-PLAN.md` (covering current-doc-status notes, tech-selection conclusions, Face planning with order/parallelizability tags, and any necessary database design and dev rules), satisfying:
+Produce `.lode/<project>/dev-plan.md` (covering current-doc-status notes, tech-selection conclusions, Face planning with order/parallelizability tags, and any necessary database design and dev rules), satisfying:
 - Broken into an ordered Face list, each Face a runnable vertical slice.
 - **Each Face carries its own Goal**: objective / done criteria (program-judgeable) / acceptance method / **acceptance scenarios**.
-- **Acceptance scenarios must be defined before building** (spec-bound): derive a few concrete, executable scenarios ("given X, do Y, get Z") from the Product-Spec's acceptance criteria — they dictate **what the tests must test**. This binds tests to the **requirement**, not to weak tests the builder reverse-engineers after writing the code — closing the "green tests but wrong feature" gap.
+- **Acceptance scenarios must be defined before building** (spec-bound): derive a few concrete, executable scenarios ("given X, do Y, get Z") from the product-spec's acceptance criteria — they dictate **what the tests must test**. This binds tests to the **requirement**, not to weak tests the builder reverse-engineers after writing the code — closing the "green tests but wrong feature" gap.
 - Inter-Face dependencies marked; independent ones tagged **parallelizable** (for the main agent to decide whether to fan out subagents).
 - Tech selection and key architecture decisions have brief notes and rationale.
 - The first Face is the "thinnest runnable" skeleton, validating the loop works as early as possible.
@@ -28,7 +28,7 @@ Produce `.lode/<project>/DEV-PLAN.md` (covering current-doc-status notes, tech-s
 
 ## Brownfield extra (when changing an old project, mandatory per change-Face)
 
-Reading `System-Map.md` + the spec's delta, add to each change-Face:
+Reading `system-map.md` + the spec's delta, add to each change-Face:
 - **Blast radius**: which files/modules this Face touches and who calls it (determined via codegraph/call relations, not guesswork).
 - **Regression surface**: which existing behaviors it ripples into; the corresponding existing-test scope to run (feeds the full-regression gate).
 - **Baseline / pin behavior**: before touching anything, **actually run the existing tests and save a baseline**; for the area you're changing that has no tests, first add **characterization tests** to pin current behavior, then change.
