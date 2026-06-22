@@ -18,6 +18,12 @@ Mainline step ③ (optional). Turn `design-brief.md` into **high-fidelity mockup
 - **Skeleton first, then increments**: ship the thinnest runnable skeleton, confirm it, then layer on one piece at a time. **Don't let it produce something too complex in one shot** — it tends to break, and it hides a pile of features you never asked for across the pages, which are a pain to delete later.
 - You can leverage the installed `open-design` MCP or `frontend-design` / `imagegen-frontend-web` skills to carry the generation.
 
+## How to view it (the output must be directly viewable)
+
+- **Prefer self-contained, double-click-to-open**: if plain HTML (or HTML + CDN) works, don't use something that needs a build; for multiple screens, generate an `index.html` that links them so it opens with a double-click.
+- **Always end with one view command**: static & openable → `open .lode/<project>/mockups/index.html`; must run a server (React/bundled) → give the start command (e.g. `npx serve .lode/<project>/mockups`).
+- You can use `screenshot` / `playwright` / `/run` to open or screenshot it yourself and put the interface in front of the user — don't make them guess how to open it.
+
 ## Done (what counts as acceptable)
 
 Produce `.lode/<project>/mockups/` (high-fidelity HTML/JSX etc. that runs in a browser), satisfying:
@@ -27,9 +33,11 @@ Produce `.lode/<project>/mockups/` (high-fidelity HTML/JSX etc. that runs in a b
 - Consistent with the product-spec's scope; don't draw out-of-scope pages.
 - **List "what was added extra"**: separately list elements you added beyond the design-brief, for the user to confirm/delete, keeping it under control.
 - The produced **design code is directly reusable by development** (hand off to the terminal / export a project bundle into the project directory), so lode-build builds on it directly instead of rewriting.
+- **Give a way to view it**: end with one command that shows the prototype (`open …/index.html` or a start command) so the user sees it with a single click.
 
 ## Guardrails (red lines)
 
+- **Can't see it = not done**: if you can't give a way to view it, or the output won't open, it doesn't count as Done.
 - This is an **optional step**: when the interface isn't critical, skip it — don't do it for its own sake.
 - **No feature sneaking**: any element beyond the design-brief must be explicitly flagged, not quietly slipped in.
 - The prototype exists to align expectations, not to be the final product — don't pile production-grade engineering structure here.
