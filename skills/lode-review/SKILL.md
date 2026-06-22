@@ -24,10 +24,10 @@ Return a structured review report covering the **four-step audit**: build verifi
 - **Test completeness is checked spec-bound**: every "acceptance scenario" of this Face has a corresponding test, and the tests test the requirement, not the implementation; the functional test **runs each acceptance scenario** — "tests exist and are green" is not a pass.
 - Each issue graded by severity: CRITICAL / HIGH / MEDIUM / LOW.
 - A clear verdict: **pass / fail** (any CRITICAL = fail).
-- On pass, the **main agent** writes the conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit); the gate lets it through on that basis.
+- On pass, the **main agent** writes the conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit, plus a line `tree: <current code fingerprint>` — get it via `lode-gate.sh fingerprint`). The gate lets it through on that basis, and verifies the fingerprint matches current code: **edit-after-review invalidates the marker and requires a re-review**.
 - On fail, each blocking item states "why + how to fix"; the main agent fixes and runs another round until Pass.
 
-**Brownfield / team / safety-critical extra review:**
+**Changing existing code / team / safety-critical extra review:**
 - **Regression**: the full existing suite has no new red; compared against the pre-change baseline to tell "broke it" from "already broken"; the spec's "must never break" list confirmed item by item.
 - **Security/compliance**: when touching auth, user input, queries, files, external calls, crypto, or payments, run a mandatory security review (per OWASP); no hard-coded secrets.
 - **Traceability**: requirement → code → test line up — every acceptance criterion has a corresponding test, every change traces back to a requirement (required for regulated systems).

@@ -36,3 +36,6 @@ In solo mode, "completion" = local build + `review-passed`. **Team / long-lived 
 - Privacy audit finds a CRITICAL issue → stop and fix immediately; don't ship sick.
 - Don't sneak new features into the release step; only seal up and package.
 - Confirm with the user before any release action (push / store submission / other irreversible outward-facing operation).
+
+## → Next
+Released. Team mode: real completion = PR passes CI + required approvals merged.

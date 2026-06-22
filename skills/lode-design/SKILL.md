@@ -35,3 +35,6 @@ Produce `.lode/<project>/mockups/` (high-fidelity HTML/JSX etc. that runs in a b
 - The prototype exists to align expectations, not to be the final product — don't pile production-grade engineering structure here.
 - Don't free-style away from the Design Brief; to change direction, go back to `/lode-brief`.
 - Confirm the output with the user before entering `lode-plan`.
+
+## → Next
+Prototype confirmed → `/lode-plan` to split into Faces.

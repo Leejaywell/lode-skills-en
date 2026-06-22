@@ -40,3 +40,6 @@ Produce `.lode/<project>/design-brief.md` that satisfies:
 - Turn "feel" into judgeable conventions; leave no "use your judgment" gaps.
 - Don't write code or generate full pages in this step (that's lode-design / lode-build).
 - Confirm the direction with the user before expanding.
+
+## → Next
+Design decisions set → `/lode-design` for a prototype (optional), or straight to `/lode-plan`.

@@ -7,36 +7,39 @@
 # Behavior: read the UserPromptSubmit JSON from stdin, extract this turn's prompt text; if it hits a
 #       correction/dissatisfaction keyword, append a signal to the most-recently-active
 #       .lode/<project>/signals.jsonl. Never blocks user input (always exit 0).
-
 set -euo pipefail
+
+cd "${CLAUDE_PROJECT_DIR:-.}" 2>/dev/null || true
 
 INPUT=$(cat 2>/dev/null || true)
 
-# Extract the prompt text: prefer jq; without jq, fall back to keyword-matching the whole input
+# Extract the prompt text (#8: match only the parsed prompt, not the whole JSON — avoid hitting field names/other fields).
+PROMPT=""
 if command -v jq >/dev/null 2>&1; then
   PROMPT=$(printf '%s' "${INPUT}" | jq -r '.prompt // .user_prompt // empty' 2>/dev/null || true)
+else
+  # No jq: best-effort extraction of the "prompt":"..." value; if it can't, give up (better to miss than to misfire).
+  PROMPT=$(printf '%s' "${INPUT}" \
+    | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\(\([^"\]\|\\.\)*\)".*/\1/p' | head -1 || true)
 fi
-[ -z "${PROMPT:-}" ] && PROMPT="${INPUT}"
+[ -z "${PROMPT}" ] && exit 0
 
-# Correction/dissatisfaction keywords. Catch only the obvious ones to avoid noise.
-KEYWORDS="wrong|that's not|that is not|don't do|do not do|stop doing|redo|misunderstood|not what i meant|incorrect|you got it wrong|i said"
+# Correction/dissatisfaction keywords. Narrowed to clear signals; dropped over-broad words (bare "wrong"/"i said") to cut noise.
+KEYWORDS="that's not what|that is not what|don't do that|do not do that|stop doing that|redo this|misunderstood|not what i (meant|asked)|you got it wrong|you misunderstood"
 
-echo "${PROMPT}" | grep -qiE "${KEYWORDS}" || exit 0
+printf '%s' "${PROMPT}" | grep -qiE "${KEYWORDS}" || exit 0
 
 # Find the most-recently-active lode workspace
 LODE_DIR=$(ls -dt .lode/*/ 2>/dev/null | head -1 || true)
 [ -z "${LODE_DIR}" ] && exit 0
-
 SIGNALS="${LODE_DIR}signals.jsonl"
 
-# Timestamp (the hook runs in a real shell, date is available)
 TS=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "")
 
 # Escape into a JSON string value
 esc() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g' | tr '\n' ' '; }
 
 printf '{"ts":"%s","type":"correction","source":"hook","prompt":"%s"}\n' \
-  "${TS}" "$(esc "${PROMPT}")" >> "${SIGNALS}"
+  "${TS}" "$(esc "${PROMPT}")" >> "${SIGNALS}" 2>/dev/null || true
 
-# Never block input
 exit 0

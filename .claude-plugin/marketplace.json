@@ -9,7 +9,7 @@
     {
       "name": "lodestar",
       "source": ".",
-      "description": "14 lode-* skills + an independent reviewer subagent + a deterministic wrap-up gate. After install, commands are /lodestar:lode-spec, /lodestar:lode-plan, etc.",
+      "description": "13 lode-* skills + an independent reviewer subagent + a deterministic wrap-up gate. After install, commands are /lodestar:lode-spec, /lodestar:lode-plan, etc.",
       "category": "workflow",
       "keywords": ["workflow", "spec-driven", "pm", "agent"]
     }

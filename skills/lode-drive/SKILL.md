@@ -1,11 +1,11 @@
 ---
 name: lode-drive
-description: "Lodestar autonomous driver. Take one goal and run the whole mainline autonomously: detect greenfield/brownfield and solo/team mode → break into milestones and Faces → run each through the four-step audit + regression → commit/open PR → update a progress ledger → replan on divergence → until the goal is met or the breaker trips. Use when the user 'sets one goal and wants the agent to run it to completion autonomously.' Trigger: /lode-drive"
+description: "Lodestar autonomous driver. Take one goal and run the whole mainline autonomously: detect from scratch/changing existing code and solo/team mode → break into milestones and Faces → run each through the four-step audit + regression → commit/open PR → update a progress ledger → replan on divergence → until the goal is met or the breaker trips. Use when the user 'sets one goal and wants the agent to run it to completion autonomously.' Trigger: /lode-drive"
 ---
 
 # Drive (Autonomous Driver)
 
-Lodestar's autonomous brain. This is what makes "one goal → run to completion → greenfield or brownfield" real: it doesn't write a single Go, it **drives the whole mainline loop**, running to the end on a resumable **progress ledger**.
+Lodestar's autonomous brain. This is what makes "one goal → run to completion → from scratch or changing existing code" real: it doesn't write a single Go, it **drives the whole mainline loop**, running to the end on a resumable **progress ledger**.
 
 > Autonomous ≠ unattended. It drives the whole way; the human shows up at just two points: **reviewing PRs** and **handling the breaker**.
 
@@ -16,7 +16,7 @@ Lodestar's autonomous brain. This is what makes "one goal → run to completion 
 
 ## Set two modes at the start (they decide how heavy the guardrails are)
 
-1. **Greenfield ↔ brownfield**: existing code means brownfield → first `lode-recon` to produce `system-map.md`, spec runs in delta mode, plan does impact analysis, verify runs **full regression**. Greenfield uses the lean flow.
+1. **From scratch ↔ changing existing code**: a pre-existing codebase means you are changing existing code → spec gets `system-map.md` ready at the start (spawn the `lode-recon` subagent for a large foreign repo), runs in delta mode, plan does impact analysis, verify runs **full regression**. From scratch uses the lean flow.
 2. **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate** — completion = PR passes CI + required approvals merged.
 
 ## How to run (the drive loop)
@@ -40,7 +40,7 @@ Lodestar's autonomous brain. This is what makes "one goal → run to completion 
 
 - **The ledger is the truth**: a status is written `passed` only after the four-step audit/regression/PR actually pass — no optimistic early marking.
 - **Breaker over grinding**: the gate blocks "bad completion," the breaker blocks "expensive non-completion"; if stuck, stop, don't burn tokens.
-- Brownfield must `lode-recon` first and must run full regression; **no baseline, no touching old code**.
+- Changing existing code must have `system-map.md` (spec ensures it at the start; large repo → `lode-recon` subagent) and must run full regression; **no baseline, no touching old code**.
 - In team mode, "completion" = merged, not a local marker; the subagent review is only a pre-PR filter, not a substitute for human review.
 - One goal, one ledger; parallel Faces don't touch the same file, the main agent merges conflicts.
 - Decision authority always stays with the human: confirm before irreversible outward actions (push is covered by the PR flow; store submission/deploy).

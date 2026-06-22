@@ -32,21 +32,22 @@ Each stage produces a doc under `.lode/<project>/`, which feeds the next stage �
 
 ---
 
-## The 14 skills (seven mainline + seven extensions)
+## The 13 skills (six mainline + seven extensions)
 
 > Command = skill name (in Claude Code the slash command is the skill name; the model also auto-triggers by description).
 
-Mainline (`⓪→⑥`):
+Mainline (`①→⑥`):
 
 | # | Command (= skill name) | What it does | Output |
 |---|---|---|---|
-| 0 | `/lode-recon` | **(brownfield)** Map existing architecture/conventions/commands/baseline | `system-map.md` |
-| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement (brownfield → delta) | `product-spec.md` |
+| 1 | `/lode-spec` | **Interrogate** a fuzzy idea into a buildable requirement; at the start, get the current-state map ready (when changing existing code → delta) | `product-spec.md` + `system-map.md` |
 | 2 | `/lode-brief` | Translate "feel" into concrete design decisions (optional) | `design-brief.md` |
 | 3 | `/lode-design` | Produce high-fidelity design / clickable prototype (optional) | `mockups/` |
-| 4 | `/lode-plan` | Split into Faces (brownfield: impact analysis/migration/baseline) | `dev-plan.md` |
+| 4 | `/lode-plan` | Split into Faces (when changing existing code: impact analysis/migration/baseline) | `dev-plan.md` |
 | 5 | `/lode-build` | Build per the plan, running the four-step audit loop | code + `changelog.md` |
 | 6 | `/lode-release` | Privacy audit + package & release (team: PR/CI) | Release |
+
+> "Codebase recon" (reading existing code into `system-map.md`) is folded into `lode-spec`'s start — it's no longer a separate command; for a large/unfamiliar codebase, spec spawns the `lode-recon` **subagent** (see `agents/lode-recon.md`) to read it with a clean brain. `system-map.md` is a living map every project has, created by spec and kept current by build.
 
 Extensions (as needed):
 
@@ -58,13 +59,13 @@ Extensions (as needed):
 | `/lode-fix` | Reproduce → locate → minimal fix → regression |
 | `/lode-skill` | Build a new skill: grant full capability, don't shred into tools |
 | `/lode-evolve` | Distill real failures into rules (self-evolution engine) |
-| `/lode-init` | Project init: one-shot scaffold of `CLAUDE.md` + `.lode/<project>/verify.sh` (use after a plugin install to start) |
+| `/lode-init` | Project init (**optional manual escape hatch**): normally provisioned automatically by spec/build; this command is just for manual pre-scaffold / repair |
 
 ---
 
 ## Install
 
-> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — update, uninstall, and gate wiring are all automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available. After install, run `/lode-init` once in your project to scaffold the per-project files.
+> Prereq: [Claude Code](https://claude.com/claude-code). **Prefer the plugin (Method 1)** — install once, then just `/lode-spec` in any project; everything else is automatic. **Script install (Method 2)** is a fallback for when the plugin system isn't available.
 
 ### Method 1: plugin install (recommended)
 
@@ -74,11 +75,11 @@ Extensions (as needed):
 ```
 > Update: `/plugin marketplace update`. Uninstall: `/plugin uninstall lodestar@lodestar`.
 
-After install:
+**After install just use it — you never decide when any script gets installed:**
 
-- Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-go`… (the model also auto-triggers by description); the `lode-review` and `lode-evolve` subagents come along too.
-- **The gate activates with the plugin** — no manual hooks merge; the gate scripts exit-pass when there's no `.lode/` workspace, so enabling it globally has no side effect.
-- **Run `/lodestar:lode-init` once in the target project**: it scaffolds the top-level `CLAUDE.md` + a `.lode/<project>/verify.sh` skeleton (the two per-project files a plugin won't auto-deploy). Then `/lodestar:lode-spec` to start.
+- Commands are namespaced as `/lodestar:lode-spec`, `/lodestar:lode-plan`, `/lodestar:lode-go`… (the model also auto-triggers by description); the `lode-review`, `lode-evolve`, and `lode-recon` subagents come along too.
+- **The gate is always-on via the plugin** — no manual merge, nothing to "enable"; it exit-passes when there's no `.lode/` workspace, so leaving it on globally has no side effect.
+- **Per-project files are provisioned by the flow at the right moment**: `CLAUDE.md` (the rules) is dropped by `lode-spec` the moment you enter a project; `verify.sh` is written by `lode-build` with real commands when development starts. **You just type `/lode-spec`.** (To pre-scaffold by hand: the optional `/lodestar:lode-init` — rarely needed.)
 
 ### Method 2: script install (fallback: environments without the plugin system)
 
@@ -88,7 +89,7 @@ curl -fsSL https://raw.githubusercontent.com/Leejaywell/lode-skills-en/main/inst
 ```
 > Inspect before running: `curl -fsSL <same URL> -o /tmp/lode.sh && bash /tmp/lode.sh`. `CLAUDE_HOME=/path` overrides the install target.
 
-Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`, `/lode-plan`…), and the gate scripts into `~/.claude/lode-hooks/`. A script install has no automatic plugin gate, so per project: ① `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`, then merge the `hooks` block from `hooks/settings.json` into `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`); ② run `/lode-init` to scaffold `CLAUDE.md` + `verify.sh`.
+Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-spec`…), and the gate scripts into `~/.claude/lode-hooks/`. `CLAUDE.md`/`verify.sh` are still auto-provisioned by the flow. **The one manual step** (there's no plugin to wire the gate): merge the `hooks` block from `hooks/settings.json` into the project's `.claude/settings.json` (scripts resolve `$CLAUDE_PROJECT_DIR/hooks/`; first `cp -R ~/.claude/lode-hooks/. ./hooks && chmod +x ./hooks/*.sh`). If that's a hassle, use Method 1.
 
 ---
 
@@ -99,18 +100,18 @@ Installs `skills/lode-*` and `agents/lode-*` (commands are the **bare** `/lode-s
 ```
 /lode-drive Finish <goal>
 ```
-`lode-drive` decides **new/old project** and **solo/team** itself, splits milestones→Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the breaker when stuck. You show up only to **review the PR** and **handle the breaker**.
+`lode-drive` decides **from scratch/changing existing code** and **solo/team** itself, splits milestones→Faces, runs each through the four-step audit + regression, maintains a progress ledger (resumable after a crash, auditable when done), re-plans on drift and trips the breaker when stuck. You show up only to **review the PR** and **handle the breaker**.
 
 ### B. Manual, step by step — when you want to drive each stage
 
-Greenfield minimal loop:
+From scratch minimal loop:
 ```
 /lode-spec    # interrogate requirements → product-spec.md
 /lode-plan    # split into Faces (each Face's acceptance scenarios first) → dev-plan.md
 /lode-go      # generate one Face's Go, paste & run it → four-step audit loop
 ```
 
-- **Old project**: first `/lode-recon` → `system-map.md`, then spec runs as a delta automatically (current→target + must-never-break).
+- **Changing existing code**: still just `/lode-spec` — at the start it gets `system-map.md` ready automatically (reads the existing map for a project you built; spawns the `lode-recon` subagent to read a large foreign repo), then runs as a delta (current→target + must-never-break). Nothing else to type first.
 - Full chain: insert `/lode-brief` (+ optional `/lode-design`) before plan; finish with `/lode-release` (team: PR/CI).
 - Three granularities for one Face: the main agent runs `lode-build` through the plan / write a Go per Face (most common) / one Go for the whole thing (most efficient once fluent).
 
@@ -118,13 +119,15 @@ Greenfield minimal loop:
 
 ## Scope + modes
 
-The lean mainline is tuned for **solo · greenfield · 0→1**; two **mode switches** extend it to old projects and teams (`lode-drive` detects them at the start):
+The lean mainline is tuned for **one person · from scratch · the first version**; two switches extend it to more complex situations (`lode-drive` detects them at the start — you don't set them by hand):
 
-- **Greenfield ↔ brownfield**: old project first `/lode-recon` for a system map, spec runs as a delta, plan does impact analysis/migration/baseline, verify runs **full regression**.
-- **Solo ↔ team**: solo uses the local `review-passed` gate; team/long-lived switches to the **PR/CI gate**, and the subagent review drops to a pre-PR filter (not a substitute for human review).
-- **Safety/compliance**: plus mandatory security review + requirement-code-test traceability.
+> Two project situations: **from scratch** = there's no code yet, you're building something new from zero; **changing existing code** = the project already has a codebase and you're modifying it or adding features.
 
-Greenfield stays light; old projects and teams get the heavy guardrails. **Autonomous ≠ unattended**: even running autonomously via `lode-drive`, the human still shows up at "review the PR" and "handle the breaker."
+- **From scratch ↔ changing existing code**: when changing existing code, spec at the start maps the current state automatically (spawning the `lode-recon` subagent for a large repo), the requirement is written as "what to change" (a delta), plan does impact analysis/migration/baseline, and verify runs a **full regression** (re-test what already worked so you don't break it).
+- **One person ↔ team**: solo uses the local `review-passed` gate; multi-person/long-lived projects switch to the **PR/CI gate**, where the subagent review becomes a pre-PR filter (not a replacement for human review).
+- **Safety/compliance**: plus mandatory security review + one-to-one requirement-code-test traceability.
+
+Building from scratch takes the leanest flow; only when you're changing existing code or working in a team do the heavier guardrails kick in. **Autonomous ≠ unattended**: even with `lode-drive` running on its own, you still show up at "review the PR" and "catch the breaker."
 
 ---
 

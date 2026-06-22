@@ -21,7 +21,7 @@ The two deterministic steps (build/test) are backstopped by the Stop gate's `ver
 3. **Code Review** — code quality, alignment with the Go and product-spec, and check against every rule in `CLAUDE.md`.
 4. **Functional test** — **run each of this Face's acceptance scenarios**, confirming it's actually done, not a vague "it runs."
 
-**Brownfield / team / safety-critical — also check:**
+**Changing existing code / team / safety-critical — also check:**
 - **Regression**: run the full existing suite, no new red; compare against the `.lode/<project>/baseline.md` baseline to tell "broke it" from "already broken"; confirm the spec's "must never break" list item by item.
 - **Security/compliance**: mandatory security review (OWASP) when touching auth/user-input/queries/files/external-calls/crypto/payments; no hard-coded secrets.
 - **Traceability**: every acceptance criterion has a corresponding test; every change traces back to a requirement.

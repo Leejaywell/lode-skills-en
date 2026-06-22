@@ -8,7 +8,7 @@
 
 Done criteria:
 1. <program-judgeable, e.g. becomes a runnable Electron + Vite + React + TS project>
-2. <reuse existing static prototype code, not a from-scratch rewrite>
+2. <reuse existing static prototype code, not a from scratch rewrite>
 3. .lode/<project>/verify.sh exits 0 (build with zero errors / all tests pass)
 4. Review passes and is written into .lode/<project>/review-passed
 

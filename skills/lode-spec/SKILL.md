@@ -1,6 +1,6 @@
 ---
 name: lode-spec
-description: "Lodestar mainline ① — requirements gathering. Interrogate a fuzzy idea into a buildable product-spec. Use when the user is starting a new product/feature, gives only a one-line need or a vague idea, or needs requirements gathering. Blunt by default, no flattery, multiple-choice interrogation. Trigger: /lode-spec"
+description: "Lodestar mainline ① — requirements gathering. Interrogate a fuzzy idea into a buildable product-spec. Use when the user is starting a new product/feature, changing or extending an existing project, gives only a one-line need or a vague idea, or needs requirements gathering — this is the unified requirements entry for both from scratch and changing existing code (changing existing code auto-fills system-map first, then runs as a delta). Blunt by default, no flattery, multiple-choice interrogation. Trigger: /lode-spec"
 ---
 
 # Product Spec Builder (Requirements Gathering)
@@ -11,6 +11,28 @@ Mainline step ①, and where the "blunt" persona is most concentrated. Through a
 
 - The user gave a vague idea; the requirement boundary isn't nailed down yet.
 - Before entering `lode-plan` — get "what to build" clear first.
+- **Every project enters here** (from scratch, adding to your own project, or changing someone else's code — one `/lode-spec` covers all).
+
+## At the start: auto-provision what's needed (zero user judgment)
+
+On entering a project, **automatically** put the two things Lodestar's loop needs in place — don't make the user decide "when to install" anything:
+
+1. **Rules `CLAUDE.md`**: if the project root doesn't have it, **tell the user once, then drop a copy** (source: the plugin's `${CLAUDE_PLUGIN_ROOT}/CLAUDE.md`, or the script-install location; if you can't find it, ask the user where Lodestar is installed). It's what the AI runs the loop by, so it must be present. If it already exists, use it — don't overwrite.
+2. **Current-state map `system-map.md`**: per the table below. (`verify.sh` is NOT provisioned here — `lode-build` writes it from the real build/test commands the moment development actually starts.)
+
+> All of this is **done automatically by the flow**, not a prerequisite command pushed on the user. To scaffold manually in one shot, the optional `/lode-init` exists (rarely needed).
+
+### How to get the current-state map ready (`system-map.md` is a living map every project should have)
+
+`system-map.md` isn't a "changing-existing-code only" output — it's a standing record of **what the system looks like right now**. Get it ready for the current situation (**the AI judges and does this itself; the user doesn't choose**):
+
+| Current situation (does the code you'll touch exist + is there this project's `.lode` history?) | How to get the map ready |
+|---|---|
+| **No code yet** (from scratch, first goal) | Start a minimal skeleton; current state = empty, the delta is just "from empty to X" |
+| **Code exists + this project built it** (has `.lode` history / last changelog) | Current state is known — read the existing `system-map.md` and refresh lightly, **no re-scan** |
+| **Code exists + foreign/legacy** (no `.lode` history) | Must read code to build the map: **small repo** → read it yourself; **large/unfamiliar** → **spawn the `lode-recon` subagent** (see `agents/lode-recon.md`) — a clean brain reads it and brings back only `system-map.md`, so a flood of code doesn't pollute this session's interrogation context |
+
+> The user only ever types one `/lode-spec`: how the map gets there is decided here. **A project isn't permanently "new" or "old"** — once the first goal ships and code exists, the next goal naturally lands in the "code exists" row; that slide is automatic, consistent with `/lode-drive`'s detection.
 
 ## How to ask (thin on steps, thick on standards)
 
@@ -36,9 +58,9 @@ I'm reading it with these assumptions; interrupt me now if any are wrong:
 → If you don't correct me, I'll keep interrogating on this basis.
 ```
 
-## Brownfield: use delta mode (when changing an old project)
+## Changing existing code: use delta mode (when changing an existing project)
 
-When the goal lands in an existing project, the spec isn't "what to build" but **what to change**. First read `lode-recon`'s `system-map.md`, then write as a delta:
+When the goal lands in an existing project, the spec isn't "what to build" but **what to change**. The current state comes from the `system-map.md` filled at the start; write as a delta:
 - **Current**: what the behavior is now (for the part you're changing).
 - **Target**: what it should be after the change.
 - **Must never break (invariants / regression surface)**: which existing behaviors, data, and interfaces must stay unchanged — this column directly decides the characterization tests build must pin and the regression scope the gate must run.
@@ -52,13 +74,17 @@ Produce `.lode/<project>/product-spec.md` that satisfies:
 - Explicit **scope boundary** (what it won't do) to prevent unbounded growth.
 - Key constraints (platform, performance, privacy, offline/online, product form) decided.
 - Includes user stories, the main flow, the tools/capabilities the agent will use, layout intent, external dependencies.
-- **Brownfield extra**: the current→target delta + the **must-never-break list** (invariants/regression surface) + affected modules.
+- **Changing existing code extra**: the current→target delta + the **must-never-break list** (invariants/regression surface) + affected modules.
 
 ## Guardrails (red lines)
 
 - **No flattery.** AI naturally agrees with people — you feel flattered, the requirement is still mush. The rule is hard-coded here: blunt, interrogate to the end, accept no vagueness.
 - Vague spots must be interrogated; nail a few key points per round; don't assume core decisions for the user.
+- **No map, no interrogation** — if the code you'll change already exists but there's no `system-map.md`, get the map ready first (small repo: read it yourself; large: spawn the `lode-recon` subagent) before writing the delta; never fabricate the current state.
 - Don't write the implementation plan, don't pick the tech stack (that's Planner/Builder's job).
 - Describe **capabilities**, don't shred the requirement into a pile of fragmented little tools.
 - When the user corrects your judgment (e.g. you advised conservative and got overruled), capture it as a Signal into `signals.jsonl` for self-evolution.
 - Confirm with the user before moving to the next step.
+
+## → Next
+Requirements set → `/lode-plan` to split into Faces (if the UI is make-or-break, `/lode-brief` first).

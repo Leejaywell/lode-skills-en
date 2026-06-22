@@ -26,7 +26,7 @@ Produce `.lode/<project>/dev-plan.md` (covering current-doc-status notes, tech-s
 - The first Face is the "thinnest runnable" skeleton, validating the loop works as early as possible.
 - Define this project's **deterministic verification command** (build + test), for lode-build to land as `.lode/<project>/verify.sh` and the Stop gate to actually run — moving "did build/test pass" out of model self-assessment and into a program.
 
-## Brownfield extra (when changing an old project, mandatory per change-Face)
+## Changing existing code extra (when changing an existing project, mandatory per change-Face)
 
 Reading `system-map.md` + the spec's delta, add to each change-Face:
 - **Blast radius**: which files/modules this Face touches and who calls it (determined via codegraph/call relations, not guesswork).
@@ -42,3 +42,6 @@ Reading `system-map.md` + the spec's delta, add to each change-Face:
 - The plan serves the loop; don't aim to freeze it perfectly in one shot — allow coming back to adjust during Build.
 - If design prototype code already exists, the plan must explicitly **build directly on it and reuse the code**, not "for reference only" rewrite.
 - Get the user's sign-off on the plan before entering `lode-build`.
+
+## → Next
+Plan set → build the first Face: `/lode-build` to run the plan, or `/lode-go` for one Face.

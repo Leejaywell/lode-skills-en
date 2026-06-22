@@ -4,7 +4,7 @@
 > Face = a vertical acceptance-testable slice: once done it compiles, runs, and can be accepted on its own.
 
 ## Mode
-- Greenfield / brownfield: <brownfield needs a system-map.md first>
+- From scratch / changing existing code: <changing existing code needs a system-map.md first>
 - Solo / team: <team uses the PR/CI gate>
 
 ## Tech Selection & Key Decisions
@@ -33,8 +33,8 @@
 - **Acceptance method**:
 - **Depends on**: Face 1
 - **Parallelizable**: independent of Face 3 → parallelizable
-- **(brownfield) Blast radius**: which files/modules it touches, who calls it
-- **(brownfield) Regression surface + migration**: existing behavior rippled / characterization baseline / expand→migrate→contract
+- **(changing existing code) Blast radius**: which files/modules it touches, who calls it
+- **(changing existing code) Regression surface + migration**: existing behavior rippled / characterization baseline / expand→migrate→contract
 
 ## Dependency Graph (brief)
 Face1 → Face2 ↘

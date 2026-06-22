@@ -13,10 +13,13 @@ Mainline step ⑤. Build **Face by Face** per `dev-plan.md`. The point is the **
 - A Face's code needs writing / filling in / tuning to acceptance.
 - Usually paired with a **Go** (see `lode-go`) to enter the self-driving loop.
 
-## At dev start, lay down `verify.sh` (the vehicle for the deterministic gate)
+## At dev start, auto-write `verify.sh` (the vehicle for the deterministic gate — zero user judgment)
 
-Before touching the first Face, wrap **this project's build + test commands** in `.lode/<project>/verify.sh` (all pass → `exit 0`, any failure → non-zero).
-This hands "build with zero errors / all tests pass" — a **deterministic judgment** — to the Stop gate to actually run, instead of stuffing it into model self-assessment; the model shouldn't "recite" its way to a passing build. Language-agnostic: what commands go in the script is the project's call (e.g. `npm run build && npm test`).
+Before touching the first Face, **build automatically** writes **this project's real build + test commands** into `.lode/<project>/verify.sh` (all pass → `exit 0`, any failure → non-zero) — **not a skeleton for the user to fill**:
+
+- Where the commands come from: changing existing code → the "how to run" section of `system-map.md` (recon already found the real commands); from scratch → the stack you chose (e.g. `npm run build && npm test`).
+- This hands "build with zero errors / all tests pass" — a **deterministic judgment** — to the Stop gate to actually run, instead of model self-assessment.
+- The gate runs it at wrap-up as a backstop: if it's missing or left as an unconfigured placeholder, wrap-up is hard-blocked.
 
 ## Four-step audit (mandatory per Face)
 
@@ -27,7 +30,7 @@ The first two steps are **deterministic** — handed to the hook to actually run
 3. **Code Review (judgment · subagent)** — fan out a clean-head subagent to review (see `lode-review`), covering code quality, alignment with the Spec, and for web projects a11y/responsive/key-page performance.
 4. **Functional test (judgment)** — run through each of the Face's **acceptance scenarios** for real (not a vague "it runs").
 
-All four pass → local commit as a rollback point (**no push**) → write the review conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit) → write the audit report → only then is this Face Done.
+All four pass → local commit as a rollback point (**no push**) → write the review conclusion into `.lode/<project>/review-passed` (note the reviewed Face/commit, plus a line `tree: <current code fingerprint>` — get it via `lode-gate.sh fingerprint`, or copy the line the gate prints when it blocks; the gate verifies it matches current code, so edits-after-review invalidate it) → **update `.lode/<project>/system-map.md`** (sync this Face's structure/conventions/new interfaces into the current-state map so it stays a live, up-to-date map — the next goal's spec uses it as the current state directly, no need to re-scan code you just wrote) → write the audit report → only then is this Face Done.
 
 ## Done (what counts as acceptable)
 
@@ -44,3 +47,6 @@ For the current Face:
 - Locate and fix your own failing self-tests; don't leave red tests for the review or the human.
 - Obey every rule in `CLAUDE.md` (each was earned by a real pitfall).
 - Only fan out subagents in parallel for mutually independent Faces; grant capability, don't pile up tools, and don't smuggle in out-of-plan "while-I'm-here optimizations."
+
+## → Next
+This Face is Done → more Faces? do the next one; all done → `/lode-release`.
